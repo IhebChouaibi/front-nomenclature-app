@@ -1,0 +1,31 @@
+<div class ="text-field-container">
+    <label *ngIf ="label" class = "text-field-label" >{{ label}}</label>
+
+    <div class="input-container"  [class.error] = "error">
+        <input
+        [type]="showPassword? 'text':type"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInputChange($event)"
+        class="text-field-input"
+    
+        />
+        
+
+        @if (type === 'password') {
+      <button 
+        type="button" 
+        (click)="togglePassword()"
+        class="password-toggle"
+        [attr.aria-label]="showPassword ? 'Cacher le mot de passe' : 'Afficher le mot de passe'"
+      >
+        {{ showPassword ? '👁️‍🗨️' : '👁️' }}
+      </button>
+    }
+    </div>
+    <div *ngIf="error" class="error-message">
+        {{error}}
+    </div>
+
+
+</div>

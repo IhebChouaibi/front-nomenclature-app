@@ -1,0 +1,46 @@
+.text-field-container {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.text-field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  transition: border-color 0.3s;
+}
+
+.input-container.error {
+  border-color: #e74c3c;
+}
+
+.text-field-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.password-toggle {
+  cursor: pointer;
+  padding: 0 0.5rem;
+  user-select: none;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

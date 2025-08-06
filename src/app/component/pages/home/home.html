@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<div class="sections-list">
+  <h2>Liste des sections</h2>
+  
+  <div class="search-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        placeholder="Rechercher une section par libellé"
+        (keyup.enter)="onSearch()"
+      >
+      <button (click)="onSearch()">Rechercher</button>
+    </div>
+    
+    <div *ngIf="searchResult" class="search-result">
+      <h3>Résultat de recherche:</h3>
+      <div class="result-card">
+        <p><strong>ID:</strong> {{ searchResult.id }}</p>
+        <p><strong>Code:</strong> {{ searchResult.codeSection }}</p>
+        <p><strong>Libellé:</strong> {{ searchResult.libelleSection }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Libellé</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let section of sectionsData?.content">
+          <!-- Ligne de la section -->
+          <tr>
+            <td>{{ section.id }}</td>
+            <td>{{ section.codeSection }}</td>
+            <td>{{ section.libelleSection }}</td>
+            <td>
+              <button (click)="toggleChapitres(section.id)" class="toggle-button">
+                {{ expandedSectionId === section.id ? 'Masquer' : 'Afficher' }} chapitres
+              </button>
+            </td>
+          </tr>
+          
+          <!-- Ligne des chapitres (visible uniquement si la section est développée) -->
+          <tr *ngIf="expandedSectionId === section.id" class="chapitres-row">
+            <td colspan="4">
+              <div class="chapitres-container">
+                <h3>Chapitres de la section "{{ section.libelleSection }}"</h3>
+                
+                <!-- Liste des chapitres -->
+                <div >
+                  <ul class="chapitres-list">
+                    <li *ngFor="let chapitre of section.chapitres">
+                      <div class="chapitre-item">
+                        <span class="chapitre-id">{{ chapitre.idChapitre }}</span>
+                        <span class="chapitre-code">{{ chapitre.codeChapitre }}</span>
+                        <span class="chapitre-libelle">{{ chapitre.libelleChapitre }}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                
+                <ng-template #noChapitres>
+                  <p class="no-chapitres">Aucun chapitre trouvé pour cette section.</p>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Pagination -->
+  <div class="pagination" >
+    <button 
+      *ngFor="let page of [].constructor(sectionsData?.totalPages); let i = index" 
+      (click)="changePage(i)"
+      [class.active]="i === currentPage"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>

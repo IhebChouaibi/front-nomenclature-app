@@ -1,0 +1,137 @@
+/*
+ * :host est un sélecteur spécifique à Angular qui cible l'élément
+ * hôte du composant (par exemple, <app-login>).
+ * C'est la méthode recommandée pour styliser le composant lui-même.
+ * Ces styles centreront votre composant dans son conteneur parent.
+*/
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Conteneur principal */
+.login-container {
+  background-color: white;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Titre */
+.login-container h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* Styles pour les champs de texte personnalisés */
+app-text-field {
+  display: block;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+/*
+ * Note : Pour styliser à l'intérieur de app-text-field (l'input, le label),
+ * vous devrez peut-être utiliser ::ng-deep ou configurer votre composant
+ * app-text-field pour accepter des styles personnalisés si ces styles
+ * ne s'appliquent pas directement.
+ * Pour cet exemple, je garde les sélecteurs comme dans votre CSS original.
+*/
+
+app-text-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+app-text-field input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e1e5eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+app-text-field input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+app-text-field input::placeholder {
+  color: #a0aec0;
+}
+
+/* Message d'erreur */
+app-text-field .error {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 8px;
+  display: block;
+}
+
+/* Bouton de connexion */
+.login-container button {
+  width: 100%;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-container button:hover {
+  background: linear-gradient(135deg, #2980b9, #2573a7);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.login-container button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .login-container {
+    padding: 30px 25px;
+  }
+  
+  .login-container h3 {
+    font-size: 24px;
+  }
+  
+  app-text-field input {
+    padding: 12px;
+  }
+  
+  .login-container button {
+    padding: 14px;
+  }
+}
