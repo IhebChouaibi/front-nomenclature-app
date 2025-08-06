@@ -1,10 +1,16 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
 import { HomeService } from '../../../service/home-service';
-import { AuthService } from '../../../service/auth-service';
 import { Section } from '../../../models/section';
 import { PageResponse } from '../../../models/page-response';
-
+import { Chapitre } from '../../../models/chapitre';
+import { Position } from '../../../models/position';
+import { Sousposition } from '../../../models/sousposition';
+import { NC } from '../../../models/nc';
+import { Info } from '../../info/info';
+import { MatDialog } from '@angular/material/dialog';
+import { TARIC } from '../../../models/taric';
+import { ImportData } from '../../../service/import-data';
+import { Exportdata } from '../../exportdata/exportdata';
 @Component({
   selector: 'app-home',
   standalone: false,
@@ -12,81 +18,84 @@ import { PageResponse } from '../../../models/page-response';
   styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
-  homeData: any;
-  sectionsData!: PageResponse<Section>;
-  currentPage = 0;
-  pageSize = 7;
-  searchTerm = '';
-  searchResult?: Section;
-  isMobile = false;
-  expandedSectionId: number | null = null; // Changé de string à number
+ isMobile = false; 
+  selectedChapitre: Chapitre | null = null; 
 
-  constructor(
-    private homeService: HomeService,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.checkIfMobile();
-  }
+  state = {
+    expandedPositionId: null as number | null, 
+    expandedSousPositionId: null as number | null,
+    expandedNcId: null as number | null,
+    expandedTaricId : null as number |null
+  };
+  constructor (private dialog : MatDialog){}
 
-  // Correction du HostListener
   @HostListener('window:resize')
   onResize() {
-    this.checkIfMobile();
-  }
-
-  ngOnInit() {
-    // this.loadHomeData();
-    this.loadSections();
-  }
-
-  checkIfMobile() {
     this.isMobile = window.innerWidth < 768;
   }
 
-  // loadHomeData() {
-  //   this.homeService.getHome().subscribe({
-  //     next: (data) => this.homeData = data,
-  //     error: (err) => console.error('Error loading home data', err)
-  //   });
-  // }
-
-  loadSections() {
-    this.homeService.getSection(this.currentPage, this.pageSize).subscribe({
-      next: (response) => {
-        console.log('Sections response:', response);
-        this.sectionsData = response;
-        this.expandedSectionId = null;
-      },
-      error: (err) => console.error('Error loading sections', err)
-    });
+  ngOnInit() {
+    this.onResize(); // Initialisation de l'état responsive
   }
 
-  onSearch() {
-    if (this.searchTerm) {
-      this.homeService.searchSection(this.searchTerm).subscribe({
-        next: (data) => {
-          this.searchResult = data;
-          this.expandedSectionId = data.id; // data.id est maintenant un nombre
-        },
-        error: (err) => {
-          console.error('Search error', err);
-          this.searchResult = undefined;
-        }
-      });
-    }
+  onChapitreSelected(chapitre: Chapitre) {
+    this.selectedChapitre = chapitre;
+    this.resetExpansionState();
   }
 
-  changePage(page: number) {
-    this.currentPage = page;
-    this.loadSections();
+  private resetExpansionState() {
+    this.state = {
+      expandedPositionId: null,
+      expandedSousPositionId: null,
+      expandedNcId: null,
+      expandedTaricId :null
+    };
   }
 
-  toggleChapitres(sectionId: number) {
-    if (this.expandedSectionId === sectionId) {
-      this.expandedSectionId = null;
+  togglePosition(id: number) {
+    if (this.state.expandedPositionId === id) {
+      this.state.expandedPositionId = null;
     } else {
-      this.expandedSectionId = sectionId;
+      this.state.expandedPositionId = id;
+      this.state.expandedSousPositionId = null;
+      this.state.expandedNcId = null;
     }
+  }
+
+  toggleSousPosition(id: number) {
+    if (this.state.expandedSousPositionId === id) {
+      this.state.expandedSousPositionId = null;
+    } else {
+      this.state.expandedSousPositionId = id;
+      this.state.expandedNcId = null; 
+    }
+  }
+
+  toggleNc(id: number) {
+    if (this.state.expandedNcId === id) {
+      this.state.expandedNcId = null;
+    } else {
+      this.state.expandedNcId = id;
+    }
+  }
+  openInfoDialog (taric :TARIC) : void {
+    this.dialog.open(Info ,{
+      width :'500px',
+      data :{
+        code :taric.codeNomenclature,
+        description :taric.libelleNomenclature ,
+        startValidity :"27/04/2023" ,
+        endValidity :"26/04/2024",
+        notes :"hhhhhhhhhahahha", 
+
+      }
+
+    })
+  }
+  openAddFile ():void{
+    console.log("=======================");
+    this.dialog.open(Exportdata,{width :'500px'});
+
+
   }
 }

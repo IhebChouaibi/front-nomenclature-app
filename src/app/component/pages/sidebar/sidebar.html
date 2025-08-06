@@ -1,0 +1,106 @@
+<div class="sidebar">
+  <h2>Recherche & Navigation</h2>
+  <div class="search-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        placeholder="Rechercher une section par libellé" 
+        (keyup.enter)="onSearch()">
+      <button (click)="onSearch()">Rechercher</button>
+    </div>
+    <div *ngIf="searchResult" class="search-result">
+      <h3>Résultat de recherche:</h3>
+      <div class="result-card">
+        <p><strong>ID:</strong> {{ searchResult.id }}</p>
+        <p><strong>Code:</strong> {{ searchResult.codeSection }}</p>
+        <p><strong>Libellé:</strong> {{ searchResult.libelleSection }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-container">
+    <h3>Liste des Sections</h3>
+    <table>
+      <tbody>
+        <ng-container *ngFor="let section of sectionsData?.content">
+          <tr>
+            <td>Section {{ section.codeSection }} :</td>
+            <td>
+              <ng-container *ngIf="state.editingSectionId !== section.idSection; ">
+                {{ section.libelleSection }}
+              </ng-container>
+             
+            </td>
+            <td>
+              <button 
+                (click)="toggleChapitres(section.idSection)" 
+                class="toggle-button">
+                {{ state.expandedSectionId === section.idSection ?  '🗁':'🗀' }}
+              </button>
+            </td>
+            <td class="action-cell">
+              <div class="dropdown">
+                <button class="dropdown-toggle">⋮</button>
+                <div class="dropdown-menu">
+                  <button (click)="startEdit('section', section.idSection)">Modifier</button>
+                  <button (click)="state.addingChapitreToSectionId = section.idSection">Ajouter chapitre</button>
+                  <button (click)="deleteItem('section', section.idSection)">Supprimer</button>
+                </div>
+              </div>
+            </td>
+            
+          </tr>
+
+          
+          <tr *ngIf="state.expandedSectionId === section.idSection" class="chapitres-row">
+            <td colspan="4">
+              <ul class="chapitres-list">
+                <li *ngFor="let chapitre of section.chapitres">
+                  <div 
+                    class="chapitre-item" 
+                    (click)="selectChapitre(chapitre)" 
+                    [class.selected]="selectedChapitreId === chapitre.idChapitre">
+                    <span class="chapitre-code">Chapitre {{ chapitre.codeChapitre }}:</span>
+                    <ng-container *ngIf="state.editingChapitreId !== chapitre.idChapitre;">
+                      <span class="chapitre-libelle">{{ chapitre.libelleChapitre }}</span>
+                    </ng-container>
+                    
+                    <div class="dropdown">
+                      <button class="dropdown-toggle">⋮</button>
+                      <div class="dropdown-menu">
+                        <button (click)="startEdit('chapitre', chapitre.idChapitre)">Modifier</button>
+
+                        <button (click)="deleteItem('chapitre', chapitre.idChapitre); $event.stopPropagation()">Supprimer</button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li *ngIf="state.addingChapitreToSectionId === section.id" class="add-chapitre-form">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="newChapitre.code" 
+                    placeholder="Code chapitre">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="newChapitre.libelle" 
+                    placeholder="Libellé chapitre">
+                  <button (click)="addChapitre(section.id)">Ajouter</button>
+                  <button (click)="state.addingChapitreToSectionId = null">Annuler</button>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div class="pagination" *ngIf="sectionsData">
+      <button 
+        *ngFor="let page of getPages(); let i = index" 
+        (click)="changePage(i)" 
+        [class.active]="i === currentPage">
+        {{ i + 1 }}
+      </button>
+    </div>
+  </div>
+</div>

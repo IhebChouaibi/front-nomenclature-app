@@ -10,33 +10,30 @@ import { environment } from '../../enviroment/enviroment.prod';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl;
+   private baseUrl :string ='http://localhost:8082' ;
 
   private tokenSub = new BehaviorSubject<string | null>(null);
   private roleSub = new BehaviorSubject<string | null>(null);
   private usernameSub = new BehaviorSubject<string | null>(null);
+  
   public token$ = this.tokenSub.asObservable();
   public role$ = this.roleSub.asObservable();
-  public email$ = this.usernameSub.asObservable();
+  public username$ = this.usernameSub.asObservable();
 
-   
-
- 
-  constructor (private http:HttpClient,private router :Router){
-     const token = localStorage.getItem('authToken');
-    const role = localStorage.getItem('userRole');
-    const email = localStorage.getItem('username');
-    
-    if (token) {
-      this.tokenSub.next(token);
-      this.roleSub.next(role);
-      this.usernameSub.next(email);
-    }
-
-
-
-
+  constructor(private http: HttpClient, private router: Router) {
+    this.initializeAuthState();
   }
+
+  private initializeAuthState(): void {
+    const token = localStorage.getItem('authToken');
+    const role = localStorage.getItem('userRole');
+    const username = localStorage.getItem('username');
+    
+    this.tokenSub.next(token);
+    this.roleSub.next(role);
+    this.usernameSub.next(username);
+  }
+
   login(authRequest: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, authRequest);
   }
@@ -49,16 +46,21 @@ export class AuthService {
     this.tokenSub.next(response.token);
     this.roleSub.next(response.role);
     this.usernameSub.next(response.username);
-    console.log(this.getToken()+'==================================================');
-    console.log(this.isAuthenticated()+'=============================');
+    
+    console.log('Role:', response.role);
+    console.log('Token:', response.token);
+    console.log('Username:', response.username);
+    console.log('Token Subject:', this.tokenSub.value);
+    console.log('Role Subject:', this.roleSub.value);
+    console.log('Email Subject:', this.usernameSub.value);
   }
 
-
-     getToken(): string | null {
-    return this.tokenSub.value;  }
+  getToken(): string | null {
+    return this.tokenSub.value; 
+  }
 
   getRole(): string | null {
-    return this.roleSub.value;
+    return this.roleSub.value; 
   }
 
   getEmail(): string | null {
@@ -77,14 +79,12 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userRole');
-    localStorage.removeItem('username');
+    localStorage.removeItem('userEmail');
     
     this.tokenSub.next(null);
     this.roleSub.next(null);
     this.usernameSub.next(null);
-      this.router.navigate(['/login']); 
-
+    
+    this.router.navigate(['/login']);
   }
-   
-  
 }

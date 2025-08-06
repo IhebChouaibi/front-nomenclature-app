@@ -8,10 +8,24 @@ import { TextField } from './component/text-field/text-field';
 import {  HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Navbar } from './component/navbar/navbar';
 import { Home } from './component/pages/home/home';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { authInterceptor } from './interceptors/auth-interceptor';
-
-
+import { PopUp } from './component/pop-up/pop-up';
+import { Info } from './component/info/info';
+import { M } from '@angular/cdk/keycodes';
+import { MatDialogModule } from '@angular/material/dialog';
+import { Sidebar } from './component/pages/sidebar/sidebar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { Exportdata } from './component/exportdata/exportdata';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { Footer } from './component/footer/footer';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 @NgModule({
   declarations: [
 
@@ -19,16 +33,32 @@ import { authInterceptor } from './interceptors/auth-interceptor';
     Login,
     Home,
     TextField,
-    Navbar
+    Navbar,
+    PopUp,
+    Info,
+    Sidebar,
+    Exportdata,
+    Footer
     
    
     
  
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,  
-     FormsModule,    
+      AppRoutingModule,
+
+ BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule,
+    NgxDropzoneModule,
+    MatProgressBarModule,
+    MatIcon,
+    MatDivider
      
  
    

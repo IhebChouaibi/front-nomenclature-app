@@ -1,90 +1,45 @@
-<app-navbar></app-navbar>
-<div class="sections-list">
-  <h2>Liste des sections</h2>
+<div class="container">
+  <!-- Sidebar à gauche (1/4) -->
+  <app-sidebar 
+    (chapitreSelected)="onChapitreSelected($event)"
+    class="sidebar">
+  </app-sidebar>
   
-  <div class="search-section">
-    <div class="search-box">
-      <input 
-        type="text" 
-        [(ngModel)]="searchTerm" 
-        placeholder="Rechercher une section par libellé"
-        (keyup.enter)="onSearch()"
-      >
-      <button (click)="onSearch()">Rechercher</button>
-    </div>
-    
-    <div *ngIf="searchResult" class="search-result">
-      <h3>Résultat de recherche:</h3>
-      <div class="result-card">
-        <p><strong>ID:</strong> {{ searchResult.id }}</p>
-        <p><strong>Code:</strong> {{ searchResult.codeSection }}</p>
-        <p><strong>Libellé:</strong> {{ searchResult.libelleSection }}</p>
+  <!-- Contenu principal à droite (3/4) -->
+  <div class="main-content">
+    <button  (click)="openAddFile()"> addfILES</button>
+    <div *ngIf="selectedChapitre">
+      <h2>Hiérarchie pour: {{ selectedChapitre.libelleChapitre }}</h2>
+      <div *ngFor="let position of selectedChapitre.positions" class="hierarchy-container">
+        <div class="hierarchy-item" (click)="togglePosition(position.idPosition)" [class.selected]="state.expandedPositionId === position.idPosition">
+          <span class="toggle-icon">{{ state.expandedPositionId === position.idPosition ?'🗁':'🗀'   }}</span>
+          {{ position.codePosition }} - {{ position.libellePosition }}
+        </div>
+        <div *ngIf="state.expandedPositionId === position.idPosition">
+          <div *ngFor="let sousPosition of position.sousPositions" class="hierarchy-item sous-position">
+            <div (click)="toggleSousPosition(sousPosition.idSousPosition)" [class.selected]="state.expandedSousPositionId === sousPosition.idSousPosition">
+              <span class="toggle-icon">{{ state.expandedSousPositionId === sousPosition.idSousPosition ? '🗁':'🗀'   }}</span>
+              {{ sousPosition.codeSousPosition }} - {{ sousPosition.libelleSousPosition }}
+            </div>
+            <div *ngIf="state.expandedSousPositionId === sousPosition.idSousPosition">
+              <div *ngFor="let nc of sousPosition.nomenclatureCombinees" class="hierarchy-item nc">
+                <div (click)="toggleNc(nc.idNCombinee)" [class.selected]="state.expandedNcId === nc.idNCombinee">
+                  <span class="toggle-icon">{{ state.expandedNcId === nc.idNCombinee ? '🗁':'🗀'   }}</span>
+                  {{ nc.codeNCombinee }}
+                </div>
+                <div *ngIf="state.expandedNcId === nc.idNCombinee">
+                  <div *ngFor="let taric of nc.nomenclatures" class="hierarchy-item taric" (click)="openInfoDialog(taric)" >
+                    {{ taric.codeNomenclature }} 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Libellé</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let section of sectionsData?.content">
-          <!-- Ligne de la section -->
-          <tr>
-            <td>{{ section.id }}</td>
-            <td>{{ section.codeSection }}</td>
-            <td>{{ section.libelleSection }}</td>
-            <td>
-              <button (click)="toggleChapitres(section.id)" class="toggle-button">
-                {{ expandedSectionId === section.id ? 'Masquer' : 'Afficher' }} chapitres
-              </button>
-            </td>
-          </tr>
-          
-          <!-- Ligne des chapitres (visible uniquement si la section est développée) -->
-          <tr *ngIf="expandedSectionId === section.id" class="chapitres-row">
-            <td colspan="4">
-              <div class="chapitres-container">
-                <h3>Chapitres de la section "{{ section.libelleSection }}"</h3>
-                
-                <!-- Liste des chapitres -->
-                <div >
-                  <ul class="chapitres-list">
-                    <li *ngFor="let chapitre of section.chapitres">
-                      <div class="chapitre-item">
-                        <span class="chapitre-id">{{ chapitre.idChapitre }}</span>
-                        <span class="chapitre-code">{{ chapitre.codeChapitre }}</span>
-                        <span class="chapitre-libelle">{{ chapitre.libelleChapitre }}</span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                
-                <ng-template #noChapitres>
-                  <p class="no-chapitres">Aucun chapitre trouvé pour cette section.</p>
-                </ng-template>
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
-  
-  <!-- Pagination -->
-  <div class="pagination" >
-    <button 
-      *ngFor="let page of [].constructor(sectionsData?.totalPages); let i = index" 
-      (click)="changePage(i)"
-      [class.active]="i === currentPage"
-    >
-      {{ i + 1 }}
-    </button>
+    <div *ngIf="!selectedChapitre" class="placeholder">
+      <p>Sélectionnez un chapitre pour afficher la hiérarchie complète</p>
+    </div>
   </div>
 </div>

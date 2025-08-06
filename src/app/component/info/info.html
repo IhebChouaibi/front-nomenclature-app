@@ -1,0 +1,32 @@
+<div class="tariff-card">
+  <div class="tariff-header">
+    <div class="document-icon">📄</div>
+    <h3 class="title">Fiche d’information</h3>
+  </div>
+
+  <div class="tariff-grid">
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Code : </span>
+      <span class="value">{{ data.code }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Description : </span>
+      <span class="value">{{ data.description }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Début validité : </span>
+      <span class="value">{{ data.startValidity || '-' }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Fin validité : </span>
+      <span class="value">{{ data.endValidity || '-' }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Notes : </span>
+      <span class="value">{{ data.notes }}</span>
+    </div>
+    <div class="tariff-footer">
+  <button mat-button (click)="fermer()">Fermer</button>
+</div>
+  </div>
+</div>

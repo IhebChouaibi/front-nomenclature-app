@@ -1,104 +1,117 @@
-/* ... styles existants ... */
-
-/* Styles pour les chapitres */
-.chapitres-row {
-  background-color: #f8f9fa;
-  border-left: 4px solid #4f46e5;
-}
-
-.chapitres-container {
-  padding: 1rem;
-}
-
-.chapitres-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.chapitre-item {
+/* Disposition principale */
+.container {
   display: flex;
-  align-items: center;
-  padding: 0.75rem;
-  border-bottom: 1px solid #e9ecef;
-  gap: 15px;
+  min-height: calc(100vh - 60px);
+  flex-direction: row; 
 }
 
-.chapitre-id {
-  font-weight: 600;
-  min-width: 40px;
-  color: #6c757d;
+.sidebar {
+  width: 25%;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+  background-color: #f8f9fa;
+  height: 100vh;
+  
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 
-.chapitre-code {
-  font-weight: 600;
-  min-width: 60px;
-  color: #4f46e5;
+.main-content {
+  width: 75%;
+  padding: 1.5rem;
+  overflow-y: auto; /* Défilement pour le contenu principal */
+  background-color: #ffffff;
+  height: 100%; /* Prend toute la hauteur disponible */
 }
 
-.chapitre-libelle {
-  flex-grow: 1;
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+        height: auto;
+  }
+  
+  .sidebar, .main-content {
+   width: 100%;
+    height: auto;
+    max-height: 50vh; /* Limite la hauteur sur mobile */
+    overflow-y: auto; /* Maintient le défilement sur mobile */
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
 }
 
-.no-chapitres {
+/* Hiérarchie */
+.hierarchy-container {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.hierarchy-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.hierarchy-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background-color 0.2s;
+}
+
+.hierarchy-item:hover {
+  background-color: #f9f9f9;
+}
+
+.selected {
+  background-color: #e6f7ff;
+  font-weight: bold;
+}
+
+/* Placeholder */
+.placeholder {
+  text-align: center;
+  padding: 3rem;
   color: #6c757d;
   font-style: italic;
-  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+/* Styles pour la hiérarchie tarifaire */
+.hierarchy-item.sous-position {
+  padding-left: 25px;
+  border-left: 2px solid #4f46e5;
+}
+
+.hierarchy-item.nc {
+  padding-left: 45px;
+  border-left: 2px solid #28a745;
+}
+
+.hierarchy-item.taric {
+  padding-left: 65px;
+  border-left: 2px solid #ff6b6b;
+}
+
+.toggle-icon {
+  margin-right: 10px;
+  font-size: 0.9em;
+  width: 20px;
+  display: inline-block;
   text-align: center;
 }
 
-.toggle-button {
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.toggle-button:hover {
-  background-color: #4338ca;
-}
-
-/* Styles pour la recherche */
-.search-section {
-  margin-bottom: 1.5rem;
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.search-box {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.search-box input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.search-box button {
-  padding: 0.75rem 1.5rem;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.search-result {
-  background-color: #e9f7ef;
-  border-left: 4px solid #28a745;
-  padding: 1rem;
-  border-radius: 4px;
-}
-
-.result-card p {
-  margin: 0.5rem 0;
+h2 {
+  color: #2c3e50;
+  border-bottom: 2px solid #4f46e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
