@@ -12,6 +12,7 @@ import { TARIC } from '../../../models/taric';
 import { ImportData } from '../../../service/import-data';
 import { Exportdata } from '../../exportdata/exportdata';
 import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-home',
   standalone: false,
@@ -19,10 +20,14 @@ import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
   styleUrls: ['./home.css']
 })
 export class Home implements OnInit {
+  
  isMobile = false; 
   selectedChapitre: Chapitre | null = null; 
 isUploading = false;
 uploadMessage = '';
+
+
+
   state = {
     expandedPositionId: null as number | null, 
     expandedSousPositionId: null as number | null,
@@ -131,7 +136,7 @@ openAddFile(): void {
   });
 }
 openAddManually() {
-   const dialogRef = this.dialog.open(AddNomenclature, { width: '500px' });
+   const dialogRef = this.dialog.open(AddNomenclature, { width: '800px' });
 
 }
 
