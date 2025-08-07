@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ImportData } from '../../service/import-data';
 @Component({
@@ -14,7 +14,8 @@ uploading? : false ;
 uploadMessage :string ='';
   constructor (
     private dialogRef : MatDialogRef<Exportdata> , 
-    @Inject(MAT_DIALOG_DATA) public data :any ){
+    @Inject(MAT_DIALOG_DATA) public data :any,
+  private cdr: ChangeDetectorRef  ){
 
 
   }
@@ -38,10 +39,8 @@ close(): void {
   }
 
   this.uploadMessage = "Importation en cours…"; 
-
-  setTimeout(() => {
-    this.dialogRef.close(this.file[0]);
-  }, 1000); 
+    this.cdr.detectChanges();
+this.dialogRef.close(this.file[0]);
 }
  onFileChange(event: any): void {
   const selectedFile = event.target.files[0];

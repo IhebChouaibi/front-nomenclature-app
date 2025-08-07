@@ -15,9 +15,14 @@
   </div>
 </div>
 
-<div *ngIf="uploadMessage" class="upload-notification">
-  ✅ {{ uploadMessage }}
+<div class="upload-zone">
+  <div *ngIf="uploadMessage" [ngClass]="{'success': uploadMessage.startsWith('✅'), 'error': uploadMessage.startsWith('❌')}">
+    {{ uploadMessage }}
+  </div>
+  <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
 </div>
+
+
     <div *ngIf="selectedChapitre">
 <h2 class="hierarchy-title">
   Hiérarchie pour : <span class="chapter-name">{{ selectedChapitre.libelleChapitre }}</span>

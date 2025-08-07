@@ -31,6 +31,8 @@ uploadMessage = '';
   };
   constructor (private dialog : MatDialog,
     private importData : ImportData ,
+     private cdr: ChangeDetectorRef
+  
   ){}
 
   @HostListener('window:resize')
@@ -103,20 +105,26 @@ openAddFile(): void {
     if (file) {
       this.isUploading = true;
       this.uploadMessage = "Importation en cours…";
-
+      this.cdr.detectChanges(); 
       this.importData.importData(file).subscribe({
         next: (res) => {
           this.uploadMessage = "✅ Importation réussie !";
           this.isUploading = false;
+          console.log('Import successful::::::::::::::::', res);
+                this.cdr.detectChanges(); 
 
-          
           setTimeout(() => {
             this.uploadMessage = '';
+                  this.cdr.detectChanges(); 
+
           }, 3000);
         },
         error: (err) => {
+          console.error('Import error:::::::::::::::', err);
           this.uploadMessage = "❌ Erreur : " + (err?.error ?? 'Importation échouée.');
           this.isUploading = false;
+                this.cdr.detectChanges(); 
+
         }
       });
     }
