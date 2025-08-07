@@ -12,7 +12,7 @@ export class Exportdata {
 
 uploading? : false ;
 uploadMessage :string ='';
-  constructor (private importData : ImportData ,
+  constructor (
     private dialogRef : MatDialogRef<Exportdata> , 
     @Inject(MAT_DIALOG_DATA) public data :any ){
 
@@ -31,25 +31,18 @@ uploadMessage :string ='';
 close(): void {
     this.dialogRef.close();
   }
- onUpload (){
-  if(!this.file){
-    this.uploadMessage =" Veuillez choisir un fichier.";
+ onUpload(): void {
+  if (!this.file.length) {
+    this.uploadMessage = "Veuillez choisir un fichier.";
+    return;
   }
-  this.importData.importData(this.file[0]).subscribe({
-    next:(res)=>{this.uploadMessage = "Importation réussie.";
-      this.uploading =false ;
-       setTimeout(() => {
-        this.dialogRef.close(res);
-      }, 1000);
 
-     },
-    error : (err)=>{
-         this.uploadMessage = 'Erreur : ' + (err?.error ?? 'Importation échouée.');
-        this.uploading = false;
-    }
+  this.uploadMessage = "Importation en cours…"; 
 
-  });
- }
+  setTimeout(() => {
+    this.dialogRef.close(this.file[0]);
+  }, 1000); 
+}
  onFileChange(event: any): void {
   const selectedFile = event.target.files[0];
   if (selectedFile) {

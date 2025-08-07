@@ -150,7 +150,6 @@
       gap: 5px;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 600px) {
       .tariff-card {
         max-width: 95%;

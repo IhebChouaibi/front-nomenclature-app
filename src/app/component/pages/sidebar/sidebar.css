@@ -187,14 +187,14 @@
   width: 100%;
   font-size: 14px;
   font-weight: 500;
-  color: #1f2937; /* gris foncé */
+  color: #1f2937; 
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
         
         .dropdown-menu button:hover {
-  background-color: #f3f4f6; /* hover gris clair */
+  background-color: #f3f4f6; 
 }
         .chapitres-list {
             padding-left: 20px;

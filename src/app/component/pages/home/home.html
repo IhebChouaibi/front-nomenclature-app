@@ -1,15 +1,27 @@
+<app-navbar></app-navbar>
 <div class="container">
-  <!-- Sidebar à gauche (1/4) -->
-  <app-sidebar 
+ 
+ <app-sidebar 
     (chapitreSelected)="onChapitreSelected($event)"
     class="sidebar">
   </app-sidebar>
   
-  <!-- Contenu principal à droite (3/4) -->
   <div class="main-content">
-    <button  (click)="openAddFile()"> addfILES</button>
+<div class="dropdown">
+  <button class="dropdown-toggle">+</button>
+  <div class="dropdown-menu">
+    <button (click)="openAddFile()">Importer un fichier</button>
+    <button (click)="openAddManually()">Ajouter manuellement</button>
+  </div>
+</div>
+
+<div *ngIf="uploadMessage" class="upload-notification">
+  ✅ {{ uploadMessage }}
+</div>
     <div *ngIf="selectedChapitre">
-      <h2>Hiérarchie pour: {{ selectedChapitre.libelleChapitre }}</h2>
+<h2 class="hierarchy-title">
+  Hiérarchie pour : <span class="chapter-name">{{ selectedChapitre.libelleChapitre }}</span>
+</h2>
       <div *ngFor="let position of selectedChapitre.positions" class="hierarchy-container">
         <div class="hierarchy-item" (click)="togglePosition(position.idPosition)" [class.selected]="state.expandedPositionId === position.idPosition">
           <span class="toggle-icon">{{ state.expandedPositionId === position.idPosition ?'🗁':'🗀'   }}</span>
@@ -42,4 +54,5 @@
       <p>Sélectionnez un chapitre pour afficher la hiérarchie complète</p>
     </div>
   </div>
+  
 </div>

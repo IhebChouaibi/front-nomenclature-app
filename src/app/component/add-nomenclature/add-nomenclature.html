@@ -1,0 +1,80 @@
+
+<div data-stepper class="stepper-container" id="wizard-validation">
+
+  <ul class="stepper-nav">
+    <li class="stepper-item" data-stepper-nav-item='{ "index": 1 }'>
+      <span class="stepper-header">
+        <span class="stepper-circle">
+          <span class="stepper-number">1</span>
+          <span class="icon-[tabler--check] stepper-check-icon"></span>
+          <span class="icon-[tabler--x] stepper-error-icon"></span>
+        </span>
+        <span class="stepper-title">Goods nomenclature information (Fr)</span>
+      </span>
+      <div class="stepper-line"></div>
+    </li>
+    <li class="stepper-item" data-stepper-nav-item='{ "index": 2 }'>
+      <span class="stepper-header">
+        <span class="stepper-circle">
+          <span class="stepper-number">2</span>
+          <span class="icon-[tabler--check] stepper-check-icon"></span>
+          <span class="icon-[tabler--x] stepper-error-icon"></span>
+        </span>
+        <span class="stepper-title">Goods Nomenclature Details(FR)</span>
+      </span>
+      <div class="stepper-line"></div>
+    </li>
+    <li class="stepper-item" data-stepper-nav-item='{ "index": 3 }'>
+      <span class="stepper-header">
+        <span class="stepper-circle">
+          <span class="stepper-number">3</span>
+          <span class="icon-[tabler--check] stepper-check-icon"></span>
+          <span class="icon-[tabler--x] stepper-error-icon"></span>
+        </span>
+        <span class="stepper-title">Social Links</span>
+      </span>
+    </li>
+  </ul>
+
+  <form id="wizard-validation-form" class="stepper-form" novalidate>
+
+    <div class="stepper-step" data-stepper-content-item='{ "index": 1 }'>
+    
+          <input type="text" placeholder="Code(FR)*" class="input" id="code" required />
+          <input type="text" placeholder="Product Line Suffix(FR)*" class="input" id="suffix" required />
+          <input type="text" placeholder="Statiscal Indicator(FR)" class="input" id="suffix" required />
+           <input type="text" class="Start Date (FR)" id="startdate" placeholder="YYYY-MM-DD" required />
+           <input type="text" class="End Date (FR)" id="enddate" placeholder="YYYY-MM-DD" required />
+            <label>
+            <input type="checkbox" name="national" value="National(FR)"> National(FR)
+            </label>
+            <label>
+            <input type="checkbox" name="declarable" value="Declarable(FR)"> Declarable(FR)
+            </label>
+    </div>
+
+   
+    
+    <div class="stepper-step" data-stepper-content-item='{ "index": 2 }' style="display: none">
+   
+      
+    </div>
+
+    <div class="stepper-step" data-stepper-content-item='{ "index": 3 }' style="display: none">
+
+    </div>
+
+
+    <div class="stepper-final" data-stepper-content-item='{ "isFinal": true }' style="display: none">
+      <h3>Your Form has been Submitted</h3>
+    </div>
+
+
+    <div class="stepper-buttons">
+      <button type="button" class="btn-prev" data-stepper-back-btn>Back</button>
+      <button type="button" class="btn-next" data-stepper-next-btn>Next</button>
+      <button type="button" class="btn-finish" data-stepper-finish-btn style="display: none">Finish</button>
+      <button type="reset" class="btn-reset" data-stepper-reset-btn style="display: none">Reset</button>
+    </div>
+  </form>
+</div>

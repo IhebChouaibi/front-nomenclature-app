@@ -8,7 +8,7 @@ import { Navbar } from './component/navbar/navbar';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, 
   { path: 'login', component: Login },
-  { path: 'home', component: Navbar, canActivate: [adminGuard]  }
+  { path: 'home', component: Home, canActivate: [adminGuard]  }
 
 
 ];

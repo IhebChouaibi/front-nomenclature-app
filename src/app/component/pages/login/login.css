@@ -1,9 +1,4 @@
-/*
- * :host est un sélecteur spécifique à Angular qui cible l'élément
- * hôte du composant (par exemple, <app-login>).
- * C'est la méthode recommandée pour styliser le composant lui-même.
- * Ces styles centreront votre composant dans son conteneur parent.
-*/
+
 :host {
   display: flex;
   justify-content: center;
@@ -12,7 +7,6 @@
   padding: 20px;
 }
 
-/* Conteneur principal */
 .login-container {
   background-color: white;
   width: 100%;
@@ -28,7 +22,6 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Titre */
 .login-container h3 {
   text-align: center;
   margin-bottom: 30px;
@@ -38,20 +31,13 @@
   letter-spacing: -0.5px;
 }
 
-/* Styles pour les champs de texte personnalisés */
 app-text-field {
   display: block;
   margin-bottom: 25px;
   position: relative;
 }
 
-/*
- * Note : Pour styliser à l'intérieur de app-text-field (l'input, le label),
- * vous devrez peut-être utiliser ::ng-deep ou configurer votre composant
- * app-text-field pour accepter des styles personnalisés si ces styles
- * ne s'appliquent pas directement.
- * Pour cet exemple, je garde les sélecteurs comme dans votre CSS original.
-*/
+
 
 app-text-field label {
   display: block;
@@ -80,7 +66,6 @@ app-text-field input::placeholder {
   color: #a0aec0;
 }
 
-/* Message d'erreur */
 app-text-field .error {
   color: #e74c3c;
   font-size: 14px;
@@ -88,7 +73,6 @@ app-text-field .error {
   display: block;
 }
 
-/* Bouton de connexion */
 .login-container button {
   width: 100%;
   background: linear-gradient(135deg, #3498db, #2980b9);
@@ -117,7 +101,6 @@ app-text-field .error {
   box-shadow: none;
 }
 
-/* Responsive */
 @media (max-width: 500px) {
   .login-container {
     padding: 30px 25px;

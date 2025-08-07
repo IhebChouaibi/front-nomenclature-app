@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TARIC } from '../../../models/taric';
 import { ImportData } from '../../../service/import-data';
 import { Exportdata } from '../../exportdata/exportdata';
+import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
 @Component({
   selector: 'app-home',
   standalone: false,
@@ -20,14 +21,17 @@ import { Exportdata } from '../../exportdata/exportdata';
 export class Home implements OnInit {
  isMobile = false; 
   selectedChapitre: Chapitre | null = null; 
-
+isUploading = false;
+uploadMessage = '';
   state = {
     expandedPositionId: null as number | null, 
     expandedSousPositionId: null as number | null,
     expandedNcId: null as number | null,
     expandedTaricId : null as number |null
   };
-  constructor (private dialog : MatDialog){}
+  constructor (private dialog : MatDialog,
+    private importData : ImportData ,
+  ){}
 
   @HostListener('window:resize')
   onResize() {
@@ -35,7 +39,7 @@ export class Home implements OnInit {
   }
 
   ngOnInit() {
-    this.onResize(); // Initialisation de l'état responsive
+    this.onResize();
   }
 
   onChapitreSelected(chapitre: Chapitre) {
@@ -92,10 +96,35 @@ export class Home implements OnInit {
 
     })
   }
-  openAddFile ():void{
-    console.log("=======================");
-    this.dialog.open(Exportdata,{width :'500px'});
+openAddFile(): void {
+  const dialogRef = this.dialog.open(Exportdata, { width: '500px' });
 
+  dialogRef.afterClosed().subscribe((file: File) => {
+    if (file) {
+      this.isUploading = true;
+      this.uploadMessage = "Importation en cours…";
 
-  }
+      this.importData.importData(file).subscribe({
+        next: (res) => {
+          this.uploadMessage = "✅ Importation réussie !";
+          this.isUploading = false;
+
+          
+          setTimeout(() => {
+            this.uploadMessage = '';
+          }, 3000);
+        },
+        error: (err) => {
+          this.uploadMessage = "❌ Erreur : " + (err?.error ?? 'Importation échouée.');
+          this.isUploading = false;
+        }
+      });
+    }
+  });
+}
+openAddManually() {
+   const dialogRef = this.dialog.open(AddNomenclature, { width: '500px' });
+
+}
+
 }

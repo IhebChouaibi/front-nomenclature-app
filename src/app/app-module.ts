@@ -26,6 +26,8 @@ import { Footer } from './component/footer/footer';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
+import { AddNomenclature } from './component/add-nomenclature/add-nomenclature';
+import { MatMenu } from '@angular/material/menu';
 @NgModule({
   declarations: [
 
@@ -38,7 +40,8 @@ import { MatDivider } from '@angular/material/divider';
     Info,
     Sidebar,
     Exportdata,
-    Footer
+    Footer,
+    AddNomenclature
     
    
     
@@ -58,7 +61,8 @@ import { MatDivider } from '@angular/material/divider';
     NgxDropzoneModule,
     MatProgressBarModule,
     MatIcon,
-    MatDivider
+    MatDivider,
+    MatMenu
      
  
    

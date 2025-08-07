@@ -1,0 +1,117 @@
+/* stepper.component.css */
+
+.stepper-container {
+  background-color: var(--color-base-100);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.stepper-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  min-width: 120px;
+}
+
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepper-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.stepper-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-bg-soft-neutral, #e2e8f0);
+  border-radius: 50%;
+  font-weight: 500;
+  position: relative;
+}
+
+.stepper-number {
+  display: block;
+}
+
+.stepper-check-icon,
+.stepper-error-icon {
+  display: none;
+  font-size: 1rem;
+}
+
+.stepper-title {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.stepper-line {
+  height: 2rem;
+  width: 1px;
+  background-color: #0000001a;
+  margin-top: 0.5rem;
+}
+
+.stepper-form {
+  flex: 1;
+  padding: 1rem;
+}
+
+.stepper-step {
+  display: none;
+}
+
+.stepper-step.active {
+  display: block;
+}
+
+.stepper-final {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  background-color: #f9fafb;
+  border: 2px dashed #ccc;
+  border-radius: 0.75rem;
+}
+
+.stepper-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.btn-prev,
+.btn-next,
+.btn-finish,
+.btn-reset {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-prev:hover,
+.btn-next:hover,
+.btn-finish:hover,
+.btn-reset:hover {
+  background-color: #4338ca;
+}

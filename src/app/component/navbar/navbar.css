@@ -3,7 +3,7 @@
   top: 0;
   width: 100%;
   z-index: 999;
-  background-color: #1f2937; /* Gris foncé */
+  background-color: #1f2937; 
   color: white;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   transition: background-color 0.3s ease;
@@ -30,8 +30,7 @@
 }
 
 .nav-links a:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* léger hover clair */
-}
+  background-color: #ffffff1a; }
 
 
 .container {
@@ -51,7 +50,6 @@
   align-items: center;
 }
 
-/* Navigation links */
 .nav-links {
   display: flex;
   flex-direction: column;
@@ -62,7 +60,6 @@
 
 
 
-/* Search Icon */
 .search-icon {
   display: inline-block;
   width: 1.5rem;
@@ -74,7 +71,6 @@
   cursor: pointer;
 }
 
-/* Mobile menu toggle */
 .menu-toggle {
   background: none;
   border: none;
@@ -92,7 +88,6 @@
   display: none;
 }
 
-/* Responsive Design */
 @media (min-width: 1024px) {
   .nav-links {
     flex-direction: row;
@@ -108,7 +103,6 @@
   }
 }
 
-/* Collapse logic */
 .collapse {
   display: none;
   width: 100%;
