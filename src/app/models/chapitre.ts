@@ -5,6 +5,6 @@ idChapitre: number;
 codeChapitre: string;
 libelleChapitre: string;
 positions :Position []
-;
+
 
 }

@@ -1,19 +1,39 @@
-<h2 mat-dialog-title>{{ data.tiitre }}</h2>
+<form [formGroup]="popupForm">
+  <h2 mat-dialog-title>{{ data.titre }}</h2>
 
-<mat-dialog-content>
-  <mat-form-field class="full-width">
-    <mat-label>{{ data.codeLabel }}</mat-label>
-    <input matInput [value]="data.code" [disabled]="data.disableCode">
-  </mat-form-field>
+  <mat-dialog-content>
+    <mat-form-field *ngIf="data.entityType === 'section'" appearance="fill" class="full-width">
+      <mat-label>ID Section</mat-label>
+      <input matInput [value]="data.id" readonly>
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <mat-label>{{ data.libelleLabel }}</mat-label>
-    <input matInput [(ngModel)]="data.libelle">
-  </mat-form-field>
-</mat-dialog-content>
+    <mat-form-field *ngIf="data.entityType === 'section'" appearance="fill" class="full-width">
+      <mat-label>Code Section</mat-label>
+      <input matInput [value]="data.code" readonly>
+    </mat-form-field>
 
-<mat-dialog-actions alig="end">
-  <button mat-button (click)="onClose()">Annuler</button>
-  <button mat-button color="primary" (click)="onSubmit()">Valider</button>
-  
-</mat-dialog-actions>
+    <mat-form-field *ngIf="data.entityType !== 'section'" appearance="fill" class="full-width">
+      <mat-label>{{ data.codeLabel }}</mat-label>
+      <input matInput formControlName="code">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ data.libelleLabel }}</mat-label>
+      <input matInput formControlName="libelle">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="data.entityType === 'chapitre'" appearance="fill" class="full-width">
+      <mat-label>Section parente</mat-label>
+      <mat-select formControlName="selectedSectionId">
+        <mat-option *ngFor="let section of sections" [value]="section.idSection">
+          [{{ section.codeSection }}] {{ section.libelleSection }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions alig="end">
+    <button mat-button (click)="onClose()">Annuler</button>
+    <button mat-button color="primary" (click)="onSubmit()">Valider</button>
+  </mat-dialog-actions>
+</form>

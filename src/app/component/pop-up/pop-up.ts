@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { HomeService } from '../../service/home-service';
+import { Component, Inject } from '@angular/core';
 import { Section } from '../../models/section';
-import { Chapitre } from '../../models/chapitre';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -12,44 +10,40 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
   styleUrl: './pop-up.css'
 })
 export class PopUp {
- 
+ sections: Section[] = [];
+  popupForm: FormGroup;
 
-   
-
-  form: FormGroup;
-titre : string  = "";
-libelleLabel : string ="";
-codeLabel:String="code";
-disableCode :boolean =false;
-
-    constructor(private fb: FormBuilder ,
-       private dialogRef : MatDialogRef<PopUp>,
-       @Inject (MAT_DIALOG_DATA)public data:any) {
-        this.titre = data?.titre||'Formulaire';
-        this.libelleLabel = data?.libelleLabel || 'Libellé';
-       this.codeLabel = data?.codeLabel || 'Code';
-          this.disableCode = data?.disableCode || false;
-    this.form = this.fb.group({
-      libelle: [data?.libelle, Validators.required],
-      code: [{ value: data?.code, disabled: this.disableCode }] 
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<PopUp>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.sections = data.sections || [];
+    
+    this.popupForm = this.fb.group({
+      libelle: [data.libelle || ''],
+      code: [data.code || ''],
+      selectedSectionId: [data.selectedSectionId || null]
     });
   }
 
- onSubmit(): void {
-    if (this.form.valid) {
-      this.dialogRef.close(this.form.getRawValue());
+  onSubmit(): void {
+    const formValue = this.popupForm.value;
+    const result: { libelle: string; code?: string; idSection?: number | null } = {
+      libelle: formValue.libelle
+    };
+    
+    if (this.data.entityType === 'chapitre') {
+      result.code = formValue.code;
+      result.idSection = formValue.selectedSectionId;
     }
+    
+    this.dialogRef.close(result);
   }
 
   onClose(): void {
     this.dialogRef.close();
   }
-    save() {
-  this.dialogRef.close({
-    libelle: this.data.libelle
-  });
-}
-  
   }
 
 

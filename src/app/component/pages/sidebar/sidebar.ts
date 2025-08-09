@@ -52,14 +52,7 @@ export class Sidebar {
   }
 
   onSearch() {
-    if (!this.searchTerm) return;
-    this.homeService.searchSection(this.searchTerm).subscribe({
-      next: (data) => {
-        this.searchResult = data;
-        this.state.expandedSectionId = data.idSection;
-      },
-      error: () => this.searchResult = undefined
-    });
+   
   }
 
   saveItem(type: 'section' | 'chapitre', id: number, libelle: string) {
@@ -137,32 +130,46 @@ export class Sidebar {
 
 startEdit(type: 'section' | 'chapitre', id: number) {
   const item = this.findItem(type, id);
-console.log(item)
+  if (!item) return; 
+  
   const dialogRef = this.dialog.open(PopUp, {
     width: '500px',
     data: {
+      entityType: type,
       titre: type === 'chapitre' ? 'Modifier un chapitre' : 'Modifier une section',
       libelleLabel: 'Libellé',
       codeLabel: 'Code',
-      libelle: type === 'chapitre' ? item?.libelleChapitre : item?.libelleSection,
-      code: type === 'chapitre' ? item?.codeChapitre : item?.codeSection,
-      disableCode: true
+      sections: this.sectionsData?.content || [],
+      id: type === 'section' ? item.idSection : undefined,
+      code: type === 'chapitre' ? item.codeChapitre : item.codeSection,
+      libelle: type === 'chapitre' ? item.libelleChapitre : item.libelleSection,
+      selectedSectionId: type === 'chapitre' ? item.idSection : undefined
     }
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      const { libelle } = result;
-      
       if (type === 'chapitre') {
-        this.homeService.update('updateChapitre', id, libelle).subscribe(() => this.loadSections());
+        
+
+        this.homeService.update('updateChapitre', id, {
+          libelleChapitre: result.libelle,
+          codeChapitre: result.code,
+          idSection: result.idSection
+        }).subscribe({
+          next: () => this.loadSections(),
+          error: (err) => console.error('Error updating chapter', err)
+        });
       } else {
-        this.homeService.update('updateSection', id, libelle).subscribe(() => this.loadSections());
+        this.homeService.update('updateSection', id, result.libelle)
+          .subscribe({
+            next: () => this.loadSections(),
+            error: (err) => console.error('Error updating section', err)
+          });
       }
     }
   });
 }
-
 
   getPages(): number[] {
     return this.sectionsData 

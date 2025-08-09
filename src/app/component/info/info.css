@@ -1,10 +1,10 @@
 .tariff-card {
+  
       width: 100%;
-      max-width: 500px;
+      max-width: 498px;
       background: white;
       border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px #00000014;
       border: 1px solid #eaeef3;
       animation: cardEntrance 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
@@ -12,7 +12,7 @@
     @keyframes cardEntrance {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(0px);
       }
       to {
         opacity: 1;

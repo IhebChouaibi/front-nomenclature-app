@@ -28,6 +28,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { AddNomenclature } from './component/add-nomenclature/add-nomenclature';
 import { MatMenu } from '@angular/material/menu';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
 
@@ -62,9 +64,10 @@ import { MatMenu } from '@angular/material/menu';
     MatProgressBarModule,
     MatIcon,
     MatDivider,
-    MatMenu
+    MatMenu,
+    MatOption,
      
- 
+    MatSelectModule  
    
 
   ],

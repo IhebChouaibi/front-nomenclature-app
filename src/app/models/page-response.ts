@@ -3,7 +3,7 @@ content: T[];
   totalPages: number;
   totalElements: number;
   size: number;
-  number: number; // Page actuelle (0-indexed)
+  number: number; 
   last: boolean;
   first: boolean;
   empty: boolean;
