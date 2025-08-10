@@ -1,0 +1,158 @@
+.search-results-container{
+  display: block;
+  padding: 8em 1em;
+  
+
+}
+:host {
+  display: block;
+
+
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #111827;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  border: 1px solid #e6e9ee;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #374151;
+  border-bottom: 1px solid #eef2f7;
+  background: #fbfcfe;
+}
+
+tbody td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1f2937;
+  vertical-align: middle;
+  border-bottom: 1px solid #f3f6fa;
+}
+
+tbody tr:hover {
+  background: rgba(59,130,246,0.03);
+}
+
+/* Empty / error */
+.empty {
+  padding: 36px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.error {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  color: #7f1d1d;
+  background: #fff1f2;
+  border: 1px solid #fecaca;
+}
+
+/* Pagination controls placeholder */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 0;
+  gap: 8px;
+  align-items: center;
+}
+
+.p-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  background: white;
+  cursor: pointer;
+}
+
+.p-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 680px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  thead th, tbody td {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+ .search-section {
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+        
+        .search-box button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-box button:hover {
+            background-color: #2980b9;
+        }
+        
+        .search-result {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }

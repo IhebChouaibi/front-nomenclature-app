@@ -95,9 +95,11 @@ uploadMessage = '';
       data :{
         code :taric.codeNomenclature,
         description :taric.libelleNomenclature ,
-        startValidity :"27/04/2023" ,
-        endValidity :"26/04/2024",
-        notes :"hhhhhhhhhahahha", 
+        startValidity :taric.dateDebutValid, 
+        endValidity :taric.dateFinValid,
+        notes : taric.notes.length > 0 ? taric.notes[0].contenu : "Aucune note disponible , vous pouvez ajouter une note en cliquant sur le bouton 'Ajouter une note .  ",
+          
+         
 
       }
 

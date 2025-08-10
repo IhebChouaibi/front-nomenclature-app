@@ -5,17 +5,9 @@
       <input 
         type="text" 
         [(ngModel)]="searchTerm" 
-        placeholder="Rechercher une section par libellé" 
+        placeholder="rechercher un nomenclature" 
         (keyup.enter)="onSearch()">
       <button (click)="onSearch()">Rechercher</button>
-    </div>
-    <div *ngIf="searchResult" class="search-result">
-      <h3>Résultat de recherche:</h3>
-      <div class="result-card">
-        <p><strong>ID:</strong> {{ searchResult.id }}</p>
-        <p><strong>Code:</strong> {{ searchResult.codeSection }}</p>
-        <p><strong>Libellé:</strong> {{ searchResult.libelleSection }}</p>
-      </div>
     </div>
   </div>
   

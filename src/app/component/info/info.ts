@@ -1,5 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PopUp } from '../pop-up/pop-up';
 
 @Component({
   selector: 'app-info',
@@ -8,7 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './info.css'
 })
 export class Info {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any,private dialogRef: MatDialogRef<Info>) {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any,private dialogRef: MatDialogRef<Info>, private dialog: MatDialog  ) {
     this.code = data.code || '';
     this.description = data.description || '';
     this.startValidity = data.startValidity || '';
@@ -23,4 +24,15 @@ export class Info {
  fermer(): void {
     this.dialogRef.close();
   }
+  addNotes(): void {
+    const dialogRef = this.dialog.open(PopUp, {
+      width: '400px',
+      data: {
+        title: 'Ajouter une note',
+        content: 'Veuillez saisir le contenu de la note :',
+        action: 'Ajouter'
+      }
+    }); 
+  }
+  
 }

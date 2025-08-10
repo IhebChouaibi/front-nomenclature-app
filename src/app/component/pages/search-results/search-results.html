@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+
+
+<div class="search-results-container"> 
+  
+  <div class="search-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="codeTaric" 
+        placeholder="rechercher un nomenclature" 
+        (keyup.enter)="search()">
+      <button (click)="search()">Rechercher</button>
+    </div>
+  </div>
+<h3> {{taricList.totalElements  }}  Résultats pour "{{ codeTaric }}"</h3>
+ 
+
+<div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+<table *ngIf="taricList.totalElements > 0">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of taricList.content" (click)="openInfoDialog(item)">
+      <td>{{ item.codeNomenclature }}</td>
+      <td>{{ item.libelleNomenclature }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<mat-paginator
+  [length]="taricList.totalElements || 0"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20, 50]"
+  (page)="onPageChange($event)">
+</mat-paginator>
+
+
+</div>

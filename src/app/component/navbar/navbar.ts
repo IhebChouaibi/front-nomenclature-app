@@ -23,6 +23,8 @@ logout(){
   this.auth.logout();
   this.router.navigate(['/login']);
 }
+goToHome() {
+  this.router.navigate(['/home']);
 
-
+}
 }

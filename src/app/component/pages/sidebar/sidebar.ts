@@ -4,6 +4,7 @@ import { HomeService } from '../../../service/home-service';
 import { PageResponse } from '../../../models/page-response';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PopUp } from '../../pop-up/pop-up';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   standalone: false,
@@ -29,6 +30,7 @@ export class Sidebar {
   };
 
   constructor(
+    private router: Router, 
     private homeService: HomeService,
     private cdRef: ChangeDetectorRef,
     private dialog :MatDialog,
@@ -52,9 +54,12 @@ export class Sidebar {
   }
 
   onSearch() {
-   
+   if (this.searchTerm.trim()){
+    this.router.navigate(['/search'], {
+      queryParams: { codeTaric: this.searchTerm }     
+   })
   }
-
+  }
   saveItem(type: 'section' | 'chapitre', id: number, libelle: string) {
     if (!libelle.trim()) return;
     this.homeService.update(

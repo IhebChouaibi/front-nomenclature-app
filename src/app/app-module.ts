@@ -30,6 +30,9 @@ import { AddNomenclature } from './component/add-nomenclature/add-nomenclature';
 import { MatMenu } from '@angular/material/menu';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { SearchResults } from './component/pages/search-results/search-results';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginator } from '@angular/material/paginator';
 @NgModule({
   declarations: [
 
@@ -43,7 +46,8 @@ import { MatSelectModule } from '@angular/material/select';
     Sidebar,
     Exportdata,
     Footer,
-    AddNomenclature
+    AddNomenclature,
+    SearchResults
     
    
     
@@ -67,7 +71,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatMenu,
     MatOption,
      
-    MatSelectModule  
+    MatSelectModule  ,
+     MatDatepickerModule,
+     MatPaginator
    
 
   ],

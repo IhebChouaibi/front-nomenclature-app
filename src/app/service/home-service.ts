@@ -24,14 +24,7 @@ getSection(page: number = 0, size: number = 7): Observable<PageResponse<Section>
     return this.http.get<PageResponse<Section>>(`${this.baseUrl}/section?page=${page}&size=${size}`, { withCredentials: true });
   }
 
-  searchTaricByCode(codeTaric: string , page=0,size =20): Observable <PageResponse<TARIC>> {
-  const params = new HttpParams()
-    .set('codeTaric', codeTaric)
-    .set('page', page.toString())
-    .set('size', size.toString());
-    
-    return this.http.get<PageResponse<TARIC>>(`${this.baseUrl}/taric/search`, { params, withCredentials: true });
-  }
+ 
   create<T>(endpoint: string, data: any): Observable<T> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, data, { withCredentials: true });
   }
