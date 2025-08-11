@@ -31,8 +31,12 @@ import { MatMenu } from '@angular/material/menu';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchResults } from './component/pages/search-results/search-results';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginator } from '@angular/material/paginator';
+import { Add } from './component/add/add';
+import { AddNotes } from './component/add-notes/add-notes';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
 
@@ -47,7 +51,9 @@ import { MatPaginator } from '@angular/material/paginator';
     Exportdata,
     Footer,
     AddNomenclature,
-    SearchResults
+    SearchResults,
+    Add,
+    AddNotes
     
    
     
@@ -70,18 +76,21 @@ import { MatPaginator } from '@angular/material/paginator';
     MatDivider,
     MatMenu,
     MatOption,
+    MatDatepicker,
      
     MatSelectModule  ,
      MatDatepickerModule,
-     MatPaginator
-   
-
+     MatPaginator,
+         MatNativeDateModule,
+MatSnackBarModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
      provideHttpClient(),
-  provideHttpClient(withInterceptors([authInterceptor]))
+  provideHttpClient(withInterceptors([authInterceptor])),
+  provideNativeDateAdapter(),
+  
   ],
   bootstrap: [App]
 })

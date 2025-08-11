@@ -4,7 +4,7 @@ export interface TARIC {
       idNomenclature: number;
   codeNomenclature: string;
   libelleNomenclature: string;
-  idSuffixe?: number;
+  idSuffix: number;
   dateDebutValid:Date;
   dateFinValid?: Date;
   notes : Notes[];

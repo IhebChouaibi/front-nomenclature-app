@@ -13,6 +13,9 @@ import { ImportData } from '../../../service/import-data';
 import { Exportdata } from '../../exportdata/exportdata';
 import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
 import { FormGroup } from '@angular/forms';
+import { Suffix } from '../../../models/suffix';
+import { Taric } from '../../../service/taric';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-home',
   standalone: false,
@@ -25,8 +28,7 @@ export class Home implements OnInit {
   selectedChapitre: Chapitre | null = null; 
 isUploading = false;
 uploadMessage = '';
-
-
+suffixMap: { [key: number]: string } = {};
 
   state = {
     expandedPositionId: null as number | null, 
@@ -36,7 +38,9 @@ uploadMessage = '';
   };
   constructor (private dialog : MatDialog,
     private importData : ImportData ,
-     private cdr: ChangeDetectorRef
+     private cdr: ChangeDetectorRef,
+     private taricService: Taric,
+     private snackBar: MatSnackBar
   
   ){}
 
@@ -52,7 +56,27 @@ uploadMessage = '';
   onChapitreSelected(chapitre: Chapitre) {
     this.selectedChapitre = chapitre;
     this.resetExpansionState();
+    chapitre.positions.forEach(pos =>
+    pos.sousPositions.forEach(sp =>
+      sp.nomenclatureCombinees.forEach(nc =>
+        nc.nomenclatures.forEach(taric =>
+          this.loadSuffix(taric.idSuffix)
+        )
+      )
+    )
+  );
   }
+  private loadSuffix(idSuffix: number): void {
+    if(!this.suffixMap[idSuffix]) {
+    this.taricService.getSuffix(idSuffix).subscribe({
+      next: (suffix) => {
+       this.suffixMap[idSuffix] = suffix.codeSuffix;
+      },
+      error: (err) => {
+        console.error('Error retrieving suffix:', err);
+      }
+    });
+  }}
 
   private resetExpansionState() {
     this.state = {
@@ -90,17 +114,18 @@ uploadMessage = '';
     }
   }
   openInfoDialog (taric :TARIC) : void {
+    const suffix = this.suffixMap[taric.idSuffix] ;
     this.dialog.open(Info ,{
       width :'500px',
       data :{
-        code :taric.codeNomenclature,
+        code :taric.codeNomenclature + '-'+ suffix,
         description :taric.libelleNomenclature ,
         startValidity :taric.dateDebutValid, 
         endValidity :taric.dateFinValid,
-        notes : taric.notes.length > 0 ? taric.notes[0].contenu : "Aucune note disponible , vous pouvez ajouter une note en cliquant sur le bouton 'Ajouter une note .  ",
-          
-         
-
+     notes: taric.notes.length > 0
+        ? taric.notes[0].contenu
+        : "Aucune note disponible , vous pouvez ajouter une note en cliquant sur le bouton 'Ajouter une note'.",
+  idNomenclature: taric.idNomenclature 
       }
 
     })

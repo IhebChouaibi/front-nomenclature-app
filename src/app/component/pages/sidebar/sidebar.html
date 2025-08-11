@@ -36,7 +36,7 @@
                 <button class="dropdown-toggle">⋮</button>
                 <div class="dropdown-menu">
                   <button (click)="startEdit('section', section.idSection)">Modifier</button>
-                  <button (click)="state.addingChapitreToSectionId = section.idSection">Ajouter chapitre</button>
+                  <button (click)="addChapitre(section.idSection)"> Add Chapitre {{section.idSection}}</button>
                   <button (click)="deleteItem('section', section.idSection)">Supprimer</button>
                 </div>
               </div>
@@ -68,18 +68,7 @@
                     </div>
                   </div>
                 </li>
-                <li *ngIf="state.addingChapitreToSectionId === section.id" class="add-chapitre-form">
-                  <input 
-                    type="text" 
-                    [(ngModel)]="newChapitre.code" 
-                    placeholder="Code chapitre">
-                  <input 
-                    type="text" 
-                    [(ngModel)]="newChapitre.libelle" 
-                    placeholder="Libellé chapitre">
-                  <button (click)="addChapitre(section.id)">Ajouter</button>
-                  <button (click)="state.addingChapitreToSectionId = null">Annuler</button>
-                </li>
+                
               </ul>
             </td>
           </tr>

@@ -5,6 +5,7 @@ import { PageResponse } from '../../../models/page-response';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PopUp } from '../../pop-up/pop-up';
 import { Router } from '@angular/router';
+import { Add } from '../../add/add';
 @Component({
   selector: 'app-sidebar',
   standalone: false,
@@ -85,39 +86,36 @@ export class Sidebar {
     this.loadSections();
   }
 
-
-  addChapitre(sectionId: number) {
-   this.dialog.open(PopUp,
-    {
-      width : '500px',
-      data: {
-      tiitre: 'Ajouter un chapitre',
-      libelleLabel: 'Libellé du chapitre',
-      codeLabel: 'Code du chapitre',
-      libelle: '',
-      code: '',
-      disableCode: false
+addChapitre(idSection :number){
+  this.dialog.open(Add ,{
+    width: '500px',
+    data: {
+   titre: 'Ajouter un chapitre ',
+      codeLabel: 'Code chapitre ',
+      libelleLabel: 'chapitre Libellé',
+      idParent: idSection
     }
 
-    }
-
-
-  ).afterClosed().subscribe(result=>
+  }).afterClosed().subscribe(result=>
   {
+    
     if(result ){
-      const{libelle ,code}=result ;
-      this.homeService.create('addChap,itre',{
-        idChapitre : 0,
-        codeChapitre : code,
-        libelleChapitre:libelle,
-        idSection : sectionId
+    console.log('Résultat popup :', result);
+   
+      this.homeService.create<Chapitre>('addChapitre',{
+        idSection : result.idParent,
+        codeChapitre : result.code,
+        libelleChapitre:result.libelle,
+        
       }).subscribe(()=>{
         this.loadSections();
       })
     }
   }
   );
-  }
+  
+}
+ 
   private findItem(type: 'section' | 'chapitre', id: number): any {
   if (!this.sectionsData || !this.sectionsData.content) return null;
 
@@ -192,4 +190,5 @@ startEdit(type: 'section' | 'chapitre', id: number) {
     this.selectedChapitreId = chapitre.idChapitre;
     this.chapitreSelected.emit(chapitre);
   }
+  
 }

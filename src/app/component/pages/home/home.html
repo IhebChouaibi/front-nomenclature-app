@@ -46,8 +46,9 @@
                 </div>
                 <div *ngIf="state.expandedNcId === nc.idNCombinee">
                   <div *ngFor="let taric of nc.nomenclatures" class="hierarchy-item taric" (click)="openInfoDialog(taric)" >
-                    {{ taric.codeNomenclature }} 
-                  </div>
+                    {{ taric.codeNomenclature }}  - {{suffixMap[taric.idSuffix] }}
+
+                </div>
                 </div>
               </div>
             </div>

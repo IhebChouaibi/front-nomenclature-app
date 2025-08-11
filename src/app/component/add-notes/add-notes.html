@@ -1,0 +1,33 @@
+<form  [formGroup]="addForm" > 
+   <h2 mat-dialog-title>{{ data.titre }}</h2>
+
+   <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ data.contenu }}</mat-label>
+        <input matInput formControlName="contenu">
+   </mat-form-field>
+
+
+   <mat-form-field>
+  <mat-label>Enter a date range</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+   <div formGroupName="dateRange">
+     <input matStartDate placeholder="Start date"  formControlName="dateDebutValid">
+    <input matEndDate placeholder="End date" formControlName="dateFinValid">
+   </div>
+  </mat-date-range-input>
+  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>
+    
+  
+   <mat-form-field appearance="fill" class="full-width">
+    <mat-label>id {{""}}</mat-label>
+    <input matInput [value]="data.idNomenclature" readonly>
+    
+   </mat-form-field>
+    <mat-dialog-actions alig="end">
+    <button mat-button (click)="onClose()">Annuler</button>
+    <button mat-button color="primary" (click)="onSubmit()">Valider</button>
+  </mat-dialog-actions>
+</form>

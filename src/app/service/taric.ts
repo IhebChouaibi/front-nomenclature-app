@@ -4,6 +4,8 @@ import { environment } from '../../enviroment/enviroment';
 import { TARIC } from '../models/taric';
 import { PageResponse } from '../models/page-response';
 import { Observable } from 'rxjs';
+import { Suffix } from '../models/suffix';
+import { Notes } from '../models/notes';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +24,12 @@ export class Taric {
       
       return this.http.get<PageResponse<TARIC>>(`${this.baseUrl}/taric/search`, { params, withCredentials: true });
     }
+  getSuffix(idSuffix : number):Observable<Suffix> {
+    return this.http.get<Suffix>(`${this.baseUrl}/taric/suffix/${idSuffix}`, { withCredentials: true });
+  }
+  addNotesToTaric(idNomenclature:number , notes: Notes): Observable<Notes> {
+  
+    return this.http.post<Notes>(`${this.baseUrl}/taric/addnote?id=${idNomenclature}`, notes, { withCredentials: true });
+  }
   
 }
