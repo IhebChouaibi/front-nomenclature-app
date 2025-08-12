@@ -115,11 +115,21 @@ suffixMap: { [key: number]: string } = {};
   }
   openInfoDialog (taric :TARIC) : void {
     const suffix = this.suffixMap[taric.idSuffix] ;
+    let libelle= '';
+  
+  if (Array.isArray(taric.descriptions)) {
+    for (const desc of taric.descriptions) {
+      if (desc.status === '1') {
+        libelle = desc.description; 
+        break; 
+      }
+    }
+  }
     this.dialog.open(Info ,{
       width :'500px',
       data :{
         code :taric.codeNomenclature + '-'+ suffix,
-        description :taric.libelleNomenclature ,
+        description :libelle ,
         startValidity :taric.dateDebutValid, 
         endValidity :taric.dateFinValid,
      notes: taric.notes.length > 0

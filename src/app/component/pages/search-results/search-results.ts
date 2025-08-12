@@ -80,11 +80,21 @@ private dialog:MatDialog) {}
 
   
  openInfoDialog (taric :TARIC) : void {
+   let libelle= '';
+  
+  if (Array.isArray(taric.descriptions)) {
+    for (const desc of taric.descriptions) {
+      if (desc.status === '1') {
+        libelle = desc.description; 
+        break; 
+      }
+    }
+  }
     this.dialog.open(Info,{
       width :'500px',
       data :{
         code :taric.codeNomenclature,
-        description :taric.libelleNomenclature ,
+        description :libelle ,
         startValidity :taric.dateDebutValid, 
         endValidity :taric.dateFinValid,
         notes : taric.notes.length > 0 ? taric.notes[0].contenu : "Aucune note disponible , vous pouvez ajouter une note en cliquant sur le bouton 'Ajouter une note .  ",
