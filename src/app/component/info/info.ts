@@ -5,6 +5,7 @@ import { Add } from '../add/add';
 import { AddNotes } from '../add-notes/add-notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Taric } from '../../service/taric';
+import { Notes } from '../../service/notes';
 
 @Component({
   selector: 'app-info',
@@ -17,7 +18,7 @@ export class Info {
     ,private dialogRef: MatDialogRef<Info>, 
     private dialog: MatDialog ,
     private snackBar: MatSnackBar,
-    private taric :Taric
+    private notesService :Notes
    ) {
     this.code = data.code || '';
     this.description = data.description || '';
@@ -50,7 +51,7 @@ export class Info {
       if (result) {
 console.log('Note ajoutée:', result);
 
-        this.taric.addNotesToTaric(this.data.idNomenclature,result).subscribe(response => {
+        this.notesService.addNotesToTaric(this.data.idNomenclature,result).subscribe(response => {
            this.snackBar.open('Note ajoutée avec succès', 'Fermer', {
           duration: 3000,
         });

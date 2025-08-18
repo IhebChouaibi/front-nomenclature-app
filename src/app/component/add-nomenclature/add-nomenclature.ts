@@ -11,62 +11,131 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class AddNomenclature {
 
   
-  form: FormGroup;
+  step1Form: FormGroup;
+  step2Form: FormGroup;
+  step3Form: FormGroup;
   currentStep = 1;
   
   constructor(
     private dialogRef: MatDialogRef<AddNomenclature>,
     private fb: FormBuilder
   ) {
-    this.form = this.fb.group({
-      code: ['', Validators.required , Validators.minLength(10),Validators.maxLength(10)],
-      suffix: ['', Validators.required , Validators.maxLength(1)],
+    this.step1Form = this.fb.group({
+      code: ['', [Validators.required ,Validators.minLength(10),Validators.maxLength(10)]],
+      suffix: ['', [Validators.required , Validators.maxLength(2)]],
       statisticalIndicator: [''],
-      startDate: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]],
-      endDate: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]],
+      startDate: ['',Validators.required],
+      endDate: ['',Validators.required],
       national: [false],
       declarable: [false],
+    });
+    this.step2Form = this.fb.group({ 
+
+      description: ['', Validators.required],
+      
+      dateDebut: ['',Validators.required],
+      dateFin: ['',Validators.required],
+      status: [1] ,
+
+
+      contenuNote :[''],
+      dateDebutNote :[''],
+      dateFinNote :[''],
+
+
+    });
+    this.step3Form = this.fb.group({
+      relatedCodes: [1],
+      
     });
   }
 
   nextStep() {
-    if (this.currentStep === 1) {
-      const step1Controls = ['code', 'suffix', 'startDate', 'endDate'];
-      const step1Valid = step1Controls.every(control => 
-        this.form.get(control)?.valid
-      );
-      
-      if (step1Valid && this.currentStep < 3) {
-        this.currentStep++;
-      } else {
-        step1Controls.forEach(control => {
-          this.form.get(control)?.markAsTouched();
-        });
-      }
-    } else if (this.currentStep < 3) {
+    let formValid = false
+  if (this.currentStep ===1){
+    formValid = this.step1Form.valid;
+  }else if (this.currentStep === 2) {
+    formValid = this.step2Form.valid; 
+  }else {
+    formValid = this.step3Form.valid;   
+  }
+
+  if(formValid  && this.currentStep < 3) {
       this.currentStep++;
     }
-  }
+
+}
 
   previousStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
+VlaidateStep2() : boolean{
 
+  const descValid = 
+    !!this.step2Form.get('description')?.valid&&
+    !!this.step2Form.get('dateDebut')?.valid&&
+    !!this.step2Form.get('dateFin')?.valid;
+    
+
+   const noteVal = this.step2Form.get('contenuNote')?.value;
+  const noteValid = !noteVal ||
+    (!!this.step2Form.get('dateDebutNote')?.valid &&
+     !!this.step2Form.get('dateFinNote')?.valid);
+
+  return !!descValid && noteValid;
+
+  
+}
   onSubmit() {
-    if (this.form.valid) {
-      console.log('Form submitted:', this.form.value);
-      this.dialogRef.close(this.form.value);
-    }
-  }
+    if (this.step1Form.valid && this.VlaidateStep2()&& this.step3Form.valid) {
+        
+      
+      const formatDate = (date: any): string | null => {
+      return date ? new Date(date).toISOString().split("T")[0] : null;
+    };
+     
+      const taricData = {
+      codeNomenclature: this.step1Form.value.code.toString(),
+      dateDebutValid:formatDate( this.step1Form.value.startDate),
+      dateFinValid: formatDate(this.step1Form.value.endDate),
+      
+      suffixDto: {
+              codeSuffix: this.step1Form.value.suffix.toString(), 
+              national: this.step1Form.value.national,
+              declarable: this.step1Form.value.declarable,
 
-  onClose() {
+      },
+      descriptions: [{
+        description: this.step2Form.value.description,
+        dateDebutValid: formatDate(this.step2Form.value.dateDebut),
+        dateFinValid: formatDate(this.step2Form.value.dateFin),
+
+      }],
+
+      notes: this.step2Form.value.contenuNote ? [{
+        contenu: this.step2Form.value.contenuNote,
+        dateDebutValid:formatDate( this.step2Form.value.dateDebutNote),
+        dateFinValid: formatDate(this.step2Form.value.dateFinNote)
+      }] : []
+    };
+        console.log("Données à envoyer :", taricData);
+
+
+    this.dialogRef.close(taricData);
+
+  } 
+
+  }
+    onClose() {
     this.dialogRef.close();
   }
 
   onReset() {
-    this.form.reset();
+    this.step1Form.reset();
+    this.step2Form.reset();
+    this.step3Form.reset();
     this.currentStep = 1;
   }
 
@@ -74,10 +143,10 @@ export class AddNomenclature {
     switch (step) {
       case 1:
         return ['code', 'suffix', 'startDate', 'endDate'].every(control => 
-          this.form.get(control)?.valid
+          this.step1Form.get(control)?.valid
         );
       case 2:
-        return true; 
+        return this.VlaidateStep2()  ; 
       case 3:
         return true; 
       default:
@@ -89,8 +158,8 @@ export class AddNomenclature {
     return this.currentStep > step && this.isStepValid(step);
   }
 
-  hasError(controlName: string): boolean {
-    const control = this.form.get(controlName);
+  hasError(controlName: string, formGroup :FormGroup): boolean {
+    const control = formGroup.get(controlName);
     return !!(control && control.invalid && control.touched);
   }
     

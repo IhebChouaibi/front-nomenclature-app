@@ -44,109 +44,123 @@
     </li>
   </ul>
 
-  <form [formGroup]="form" class="stepper-form" (ngSubmit)="onSubmit()">
+  <form class="stepper-form" (ngSubmit)="onSubmit()">
     
-    <div class="stepper-step" *ngIf="currentStep === 1">
-      <div class="form-group">
-        <input 
-          formControlName="code" 
-          type="number" 
-          placeholder="Code (FR)*" 
-          class="input"
-          [class.error]="hasError('code')"
-          id="code" />
-        <div class="error-message" *ngIf="hasError('code')">
-          Le code est requis
-        </div>
-      </div>
-
-      <div class="form-group">
-        <input 
-          formControlName="suffix" 
-          type="number" 
-          placeholder="Product Line Suffix (FR)*" 
-          class="input"
-          [class.error]="hasError('suffix')"
-          id="suffix" />
-        <div class="error-message" *ngIf="hasError('suffix')">
-          Le suffixe est requis
-        </div>
-      </div>
-
-      <div class="form-group">
-        <input 
-          formControlName="statisticalIndicator" 
-          type="text" 
-          placeholder="Statistical Indicator (FR)" 
-          class="input" 
-          id="statisticalIndicator" />
-      </div>
-
-      <div class="form-group">
-        <input 
-          formControlName="startDate" 
-          type="date" 
-          class="input"
-          [class.error]="hasError('startDate')"
-          id="startDate" 
-          placeholder="Start Date (FR)" />
-        <div class="error-message" *ngIf="hasError('startDate')">
-          La date de début est requise
-        </div>
-      </div>
-
-      <div class="form-group">
-        <input 
-          formControlName="endDate" 
-          type="date" 
-          class="input"
-          [class.error]="hasError('endDate')"
-          id="endDate" 
-          placeholder="End Date (FR)" />
-        <div class="error-message" *ngIf="hasError('endDate')">
-          La date de fin est requise
-        </div>
-      </div>
-
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input 
-            formControlName="national" 
-            type="checkbox" 
-            name="national"> 
-          National (FR)
-        </label>
+    <div class="stepper-step" *ngIf="currentStep === 1" [formGroup]="step1Form">
         
-        <label class="checkbox-label">
+                
+        <mat-form-field  class="form-group" appearance="outline">
+            <input 
+                  formControlName="code" 
+                 matInput type="number" 
+                  placeholder="Code (FR)*" 
+                  class="input"
+                  id="code" />
+                  <mat-error *ngIf="hasError('code',step1Form)">
+                    Le code est requis  </mat-error>
+        </mat-form-field>
+     
+      <mat-form-field class="form-group"  appearance="outline">
           <input 
-            formControlName="declarable" 
-            type="checkbox" 
-            name="declarable"> 
-          Declarable (FR)
-        </label>
-      </div>
+            formControlName="suffix" 
+            matInput type="number" 
+            placeholder="suffix" 
+            class="input" 
+            />
+          <mat-error *ngIf="hasError('suffix',step1Form)">
+            L'unité est requise
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-group" appearance="outline">
+          <input 
+            formControlName="statisticalIndicator" 
+            matInput type="text" 
+            placeholder="Statistical Indicator (FR)" 
+            class="input" 
+             />
+          <mat-error *ngIf="hasError('statisticalIndicator',step1Form)">
+            L'unité est requise
+          </mat-error>
+      </mat-form-field>
+
+
+      
+        
+      <mat-form-field class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="picker1" formControlName="startDate"placeholder="Choisir une date">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="hasError('startDate',step1Form)">
+          La date de début est requise
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="picker2" formControlName="endDate" placeholder="Choisir une date">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="hasError('endDate',step1Form)">
+          La date de fin est requise
+        </mat-error>
+      </mat-form-field>
+
+        
+      
+
+      <mat-checkbox formControlName="national" class="checkbox-group">National</mat-checkbox>
+      <mat-checkbox formControlName="declarable" class="checkbox-group">Declarable</mat-checkbox>
+
+
+
     </div>
 
    
-    <div class="stepper-step" *ngIf="currentStep === 2">
-      <h3>Step 2 Content</h3>
-      <p>Ajoutez ici le contenu du step 2</p>
+    <div class="stepper-step" *ngIf="currentStep === 2" [formGroup]="step2Form">
+     <mat-form-field  class="form-group" appearance="outline">
+        <input matInput formControlName="description" placeholder="Description (FR)" class="input" />
+      </mat-form-field>
+
+      <mat-form-field  class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="dp1" formControlName="dateDebut" placeholder="Date de début">
+        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+        <mat-datepicker #dp1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field  class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="dp2" formControlName="dateFin" placeholder="Date de fin">
+        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+        <mat-datepicker #dp2></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field  class="form-group" appearance="outline">
+        <input matInput formControlName="contenuNote"   placeholder="Contenu de la note" class="input" />
+      </mat-form-field>
+
+      <mat-form-field  class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="dp3" formControlName="dateDebutNote" placeholder="Date de début de la note">
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="form-group" appearance="outline">
+        <input matInput [matDatepicker]="dp4" formControlName="dateFinNote"   placeholder="Date de fin de la note">
+        <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+        <mat-datepicker #dp4></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <!-- Step 3 -->
     <div class="stepper-step" *ngIf="currentStep === 3">
       <h3>Step 3 Content</h3>
       <p>Ajoutez ici le contenu du step 3</p>
-      <!-- Ajoutez vos champs pour le step 3 -->
     </div>
 
-    <!-- Message final -->
     <div class="stepper-final" *ngIf="currentStep > 3">
       <h3>Your Form has been Submitted</h3>
       <p>Toutes les informations ont été enregistrées avec succès.</p>
     </div>
 
-    <!-- Boutons de navigation -->
     <div class="stepper-buttons">
       <button 
         type="button" 
@@ -165,8 +179,10 @@
       </button>
       
       <button 
-        type="submit" 
+         (click)="onSubmit()" 
+
         class="btn-finish"
+        
         *ngIf="currentStep === 3">
         Finish
       </button>

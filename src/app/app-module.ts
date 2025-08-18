@@ -37,6 +37,7 @@ import { Add } from './component/add/add';
 import { AddNotes } from './component/add-notes/add-notes';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatCheckbox } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
 
@@ -82,7 +83,8 @@ import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
      MatDatepickerModule,
      MatPaginator,
          MatNativeDateModule,
-MatSnackBarModule
+MatSnackBarModule,
+MatCheckbox
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

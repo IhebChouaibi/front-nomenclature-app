@@ -6,6 +6,7 @@ import { PageResponse } from '../models/page-response';
 import { Observable } from 'rxjs';
 import { Suffix } from '../models/suffix';
 import { Notes } from '../models/notes';
+import { TaricWithDetailsRequest } from '../models/taric-with-details-request';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,12 @@ export class Taric {
     private baseUrl = environment.apiUrl; 
   
  constructor(private http: HttpClient) {}
+
+  createTaric(request: TaricWithDetailsRequest): Observable<TARIC> {
+    return this.http.post<TARIC>(`${this.baseUrl}/taric/addTaric`, request, { withCredentials: true });
+  }
+
+
 
  
    searchTaricByCode(codeTaric: string , page=0,size =20): Observable <PageResponse<TARIC>> {
@@ -27,9 +34,9 @@ export class Taric {
   getSuffix(idSuffix : number):Observable<Suffix> {
     return this.http.get<Suffix>(`${this.baseUrl}/taric/suffix/${idSuffix}`, { withCredentials: true });
   }
-  addNotesToTaric(idNomenclature:number , notes: Notes): Observable<Notes> {
-  
-    return this.http.post<Notes>(`${this.baseUrl}/taric/addnote?id=${idNomenclature}`, notes, { withCredentials: true });
-  }
-  
+
+  addSuffix(idNomenclature : number,suffix: Suffix): Observable<Suffix> {
+    return this.http.post<Suffix>(`${this.baseUrl}/taric/addSuffix/${idNomenclature}`, suffix, { withCredentials: true });
+  } 
+
 }

@@ -16,6 +16,8 @@ import { FormGroup } from '@angular/forms';
 import { Suffix } from '../../../models/suffix';
 import { Taric } from '../../../service/taric';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Description } from '../../../service/description';
+import { Notes } from '../../../service/notes';
 @Component({
   selector: 'app-home',
   standalone: false,
@@ -40,6 +42,8 @@ suffixMap: { [key: number]: string } = {};
     private importData : ImportData ,
      private cdr: ChangeDetectorRef,
      private taricService: Taric,
+     private description :Description,
+     private notes : Notes,
      private snackBar: MatSnackBar
   
   ){}
@@ -172,9 +176,42 @@ openAddFile(): void {
     }
   });
 }
-openAddManually() {
-   const dialogRef = this.dialog.open(AddNomenclature, { width: '800px' });
 
+openAddNomenclature() {
+ const dialogRef = this.dialog.open(
+  AddNomenclature
+
+  , { width: '800px' ,
+    disableClose: true
+  }
+); dialogRef.afterClosed().subscribe(formData => {
+    if (formData) {
+      this.createTaricWithDetails(formData);
+    }
+  });
 }
 
+ createTaricWithDetails(formData: any) {
+   const request = {
+    codeNomenclature: formData.codeNomenclature,
+    dateDebutValid: formData.dateDebutValid,
+    dateFinValid: formData.dateFinValid,
+    suffixDto: formData.suffixDto,
+      descriptions: formData.descriptions.map((d: any) => ({
+      description: d.description,
+      dateDebutValid: d.dateDebutValid,
+      dateFinValid: d.dateFinValid,
+      status: d.status ?? 1  
+    })),
+    notes: formData.notes || []};
+    this.taricService.createTaric(request).subscribe({
+         next: (response) => {
+      console.log("✅ TARIC créé avec détails :", response);
+      
+    },
+    error: (err) => {
+      console.error("❌ Erreur lors de la création :", err);
+    }
+    });
+  }
 }
