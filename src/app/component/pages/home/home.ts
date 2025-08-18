@@ -207,10 +207,18 @@ openAddNomenclature() {
     this.taricService.createTaric(request).subscribe({
          next: (response) => {
       console.log("✅ TARIC créé avec détails :", response);
+      this.snackBar.open('TARIC créé avec succès !', 'Fermer', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
       
     },
     error: (err) => {
       console.error("❌ Erreur lors de la création :", err);
+      this.snackBar.open('Erreur lors de la création du TARIC.', 'Fermer', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
     }
     });
   }

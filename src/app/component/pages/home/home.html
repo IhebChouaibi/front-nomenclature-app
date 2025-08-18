@@ -8,7 +8,12 @@
   
   <div class="main-content">
 <div class="dropdown">
-  <button class="dropdown-toggle">+</button>
+  <button matButton="elevated"
+        matTooltip="Add Nomenclature"
+        aria-label="Button that displays a tooltip when focused or hovered over"
+        class="dropdown-toggle">
++</button>
+
   <div class="dropdown-menu">
     <button (click)="openAddFile()">Importer un fichier</button>
     <button (click)="openAddNomenclature()">Ajouter manuellement</button>

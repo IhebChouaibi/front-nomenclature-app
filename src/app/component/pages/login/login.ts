@@ -36,15 +36,20 @@ export class Login {
         this.auth.saveAuthData(response);
         this.router.navigate(['/home']);
       } else {
-        this.authRequest.password='',
-        this.authRequest.username='',
-        alert("okhrej nayik");
+        console.error('Accès refusé : rôle non autorisé');
         this.errorMessage = 'Accès réservé aux administrateurs';
+      window.alert('Vous n\'avez pas les permissions nécessaires pour vous connecter.');
+window.location.reload();
       }
     },
     error: err => {
-      console.error('Erreur de connexion:', err);
-      this.errorMessage = 'Nom d\'utilisateur ou mot de passe incorrect';
+            console.error('Erreur de connexion:', err);
+
+      if (err.status===401){
+        
+
+        window.alert('Nom d\'utilisateur ou mot de passe incorrect !');
+window.location.reload();      }
     }
   });
   }
