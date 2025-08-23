@@ -21,13 +21,10 @@
       <span class="label" style="font-weight: bold;">Fin validité : </span>
       <span class="value">{{ data.endValidity || '-' }}</span>
     </div>
-    <div class="grid-row">
-      <span class="label" style="font-weight: bold;">Notes : </span>
-      <span class="value">{{ data.notes }}</span>
-    </div>
+    
     <div class="tariff-footer">
   <button mat-button (click)="fermer()">Fermer</button>
-  <button mat-button (click)="addNotes()">Add Note</button>
+  <button mat-button (click)="goToFullDetails()">Voir plus</button>
 </div>
   </div>
 </div>

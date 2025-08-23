@@ -6,7 +6,7 @@ export interface TaricWithDetailsRequest {
     codeNomenclature: string;
     dateDebutValid: Date ;
     dateFinValid?: Date;
-    suffixDto: Suffix,
+    suffixDto: Suffix;
     descriptions: Description[];
     notes : Notes[];
 }

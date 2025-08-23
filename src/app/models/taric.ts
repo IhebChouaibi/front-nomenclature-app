@@ -1,4 +1,5 @@
 import { Description } from "./description";
+import { Mesure } from "./mesure";
 import { Notes } from "./notes";
 
 export interface TARIC {
@@ -9,4 +10,6 @@ export interface TARIC {
   dateDebutValid:Date;
   dateFinValid?: Date;
   notes : Notes[];
+  mesures:Mesure[]
+
 }

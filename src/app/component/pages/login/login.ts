@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthRequest } from '../../../models/auth-request';
 import { AuthService } from '../../../service/auth-service';
 import { Router } from '@angular/router';
 import { TextField } from '../../text-field/text-field';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,10 @@ export class Login {
   
 
 
-  constructor(private auth : AuthService, private router :Router){}
+  constructor(private auth : AuthService,
+     private router :Router,
+    private snack : MatSnackBar,
+  private cdr: ChangeDetectorRef){}
 
 
  onLogin(): void {
@@ -37,19 +41,25 @@ export class Login {
         this.router.navigate(['/home']);
       } else {
         console.error('Accès refusé : rôle non autorisé');
-        this.errorMessage = 'Accès réservé aux administrateurs';
-      window.alert('Vous n\'avez pas les permissions nécessaires pour vous connecter.');
-window.location.reload();
+        this.errorMessage = 'Accès interdit !!';
+        
+        this.snack.open(this.errorMessage,'Fermer',{
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+        this.authRequest = { username: '', password: '' };
+
+        this.cdr.detectChanges();
+
+     
+   
       }
     },
     error: err => {
             console.error('Erreur de connexion:', err);
+        this.authRequest = { username: '', password: '' };
+        this.cdr.detectChanges();
 
-      if (err.status===401){
-        
-
-        window.alert('Nom d\'utilisateur ou mot de passe incorrect !');
-window.location.reload();      }
     }
   });
   }

@@ -42,8 +42,7 @@ suffixMap: { [key: number]: string } = {};
     private importData : ImportData ,
      private cdr: ChangeDetectorRef,
      private taricService: Taric,
-     private description :Description,
-     private notes : Notes,
+  
      private snackBar: MatSnackBar
   
   ){}
@@ -90,6 +89,7 @@ suffixMap: { [key: number]: string } = {};
       expandedTaricId :null
     };
   }
+  
 
   togglePosition(id: number) {
     if (this.state.expandedPositionId === id) {
@@ -100,6 +100,7 @@ suffixMap: { [key: number]: string } = {};
       this.state.expandedNcId = null;
     }
   }
+  
 
   toggleSousPosition(id: number) {
     if (this.state.expandedSousPositionId === id) {
@@ -136,13 +137,12 @@ suffixMap: { [key: number]: string } = {};
         description :libelle ,
         startValidity :taric.dateDebutValid, 
         endValidity :taric.dateFinValid,
-     notes: taric.notes.length > 0
-        ? taric.notes[0].contenu
-        : "Aucune note disponible , vous pouvez ajouter une note en cliquant sur le bouton 'Ajouter une note'.",
+     //notes: taric.notes.length > 0? taric.notes[0].contenu: "Aucune note disponible !!",
   idNomenclature: taric.idNomenclature 
       }
 
-    })
+    });
+   
   }
 openAddFile(): void {
   const dialogRef = this.dialog.open(Exportdata, { width: '500px' });
@@ -211,6 +211,7 @@ openAddNomenclature() {
         duration: 3000,
         panelClass: ['success-snackbar']
       });
+       this.cdr.detectChanges(); 
       
     },
     error: (err) => {

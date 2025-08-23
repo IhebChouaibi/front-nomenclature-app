@@ -13,7 +13,8 @@ import { TaricWithDetailsRequest } from '../models/taric-with-details-request';
 })
 export class Taric {
     private baseUrl = environment.apiUrl; 
-  
+  private selectedTaric: any;
+
  constructor(private http: HttpClient) {}
 
   createTaric(request: TaricWithDetailsRequest): Observable<TARIC> {
@@ -38,5 +39,16 @@ export class Taric {
   addSuffix(idNomenclature : number,suffix: Suffix): Observable<Suffix> {
     return this.http.post<Suffix>(`${this.baseUrl}/taric/addSuffix/${idNomenclature}`, suffix, { withCredentials: true });
   } 
+  getTaricById(idNomenclature : number):Observable<TARIC>{
+    return this.http.get<TARIC>(`${this.baseUrl}/taric/getTaricById?idTaric=${idNomenclature}` ,{withCredentials :true});
+  }
+
+  setTaric(taric: any) {
+    this.selectedTaric = taric;
+  }
+
+  getTaric() {
+    return this.selectedTaric;
+  }
 
 }

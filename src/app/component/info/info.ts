@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PopUp } from '../pop-up/pop-up';
 import { Add } from '../add/add';
@@ -6,6 +6,7 @@ import { AddNotes } from '../add-notes/add-notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Taric } from '../../service/taric';
 import { Notes } from '../../service/notes';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-info',
@@ -18,24 +19,31 @@ export class Info {
     ,private dialogRef: MatDialogRef<Info>, 
     private dialog: MatDialog ,
     private snackBar: MatSnackBar,
-    private notesService :Notes
+    private notesService :Notes,
+    private cdr: ChangeDetectorRef,
+    private router :Router     
+
    ) {
     this.code = data.code || '';
     this.description = data.description || '';
     this.startValidity = data.startValidity || '';
     this.endValidity = data.endValidity || '';
-    this.notes = data.notes || '';
+    //this.notes = data.notes || '';
   }
    @Input() code: string = '';
   @Input() description: string = '';
   @Input() startValidity: string = '';
   @Input() endValidity: string = '';
-  @Input() notes: string = '';
+ // @Input() notes: string = '';
   @Input() idNomenclature: string = '';
  fermer(): void {
     this.dialogRef.close();
   }
-  
+  goToFullDetails(){
+    
+    this.router.navigate(['/taric-info',this.data.idNomenclature])
+    this.fermer();
+  }
   addNotes(): void {
     const dialogRef = this.dialog.open(AddNotes, {
       width: '400px',
@@ -55,6 +63,7 @@ console.log('Note ajoutée:', result);
            this.snackBar.open('Note ajoutée avec succès', 'Fermer', {
           duration: 3000,
         });
+         this.cdr.detectChanges(); 
         }     )
           
       } else {

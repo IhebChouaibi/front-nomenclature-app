@@ -4,7 +4,6 @@
             padding-top: 60px;
         }
         
-        /* Barre de navigation */
         .navbar {
             position: fixed;
             top: 0;
@@ -31,7 +30,6 @@
             margin-left: 20px;
         }
         
-        /* Conteneur principal */
         .container {
             display: flex;
             width: 100%;
@@ -41,15 +39,15 @@
         
         /* Barre latérale */
         .sidebar {
-            width: 280px;
+            width: 100%;
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px; 
             box-shadow: var(--shadow);
             height: calc(100vh - 100px);
             position: sticky;
-            top: 80px;
+            top: 60px;
             overflow-y: auto;
         }
         
@@ -70,24 +68,24 @@
         
         .search-box input {
             flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 4px 0 0 4px;
+            border: solid #1f2937 1px ;            padding: 10px;
+            margin-right: 4%;
+            border-radius: 4px;
             font-size: 14px;
         }
         
         .search-box button {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: #1f2937;
+            color: #ffffff;
             border: none;
             padding: 10px 15px;
-            border-radius: 0 4px 4px 0;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
         
         .search-box button:hover {
-            background-color: #2980b9;
+            background-color: #37475f;
         }
         
         .search-result {
@@ -118,6 +116,8 @@
         }
         
         table {
+                        overflow-y: auto;
+
             width: 100%;
             border-collapse: collapse;
         }

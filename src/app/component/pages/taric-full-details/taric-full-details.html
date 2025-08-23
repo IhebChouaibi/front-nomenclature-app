@@ -1,0 +1,61 @@
+<app-navbar></app-navbar>
+<div class="taric-details-container">
+  <h2>🔹 Détails Nomenclature</h2>
+
+  <div class="card">
+    <p><strong>ID :</strong> {{ taric.idNomenclature }}</p>
+    <p><strong>Code :</strong> {{ taric.codeNomenclature }}</p>
+    <p><strong>Date début validité :</strong> {{ taric.dateDebutValid }}</p>
+    <p><strong>Date fin validité :</strong> {{ taric.dateFinValid }}</p>
+    <p><strong>ID Suffix :</strong> {{ taric.idSuffix }}</p>
+  </div>
+
+  <div class="card">
+    <h3>📝 Descriptions</h3>
+    <ul>
+      <li *ngFor="let desc of taric.descriptions">
+        <p><strong>ID :</strong> {{ desc.id }}</p>
+        <p><strong>Status :</strong> {{ desc.status }}</p>
+        <p><strong>Date début :</strong> {{ desc.dateDebut }}</p>
+        <p><strong>Date fin :</strong> {{ desc.dateFin }}</p>
+        <p><strong>Description :</strong> {{ desc.description }}</p>
+        <hr />
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📏 Mesures</h3>
+    <div *ngFor="let mesure of taric.mesures" class="mesure">
+      <p><strong>ID :</strong> {{ mesure.idMesure }}</p>
+      <p><strong>Code :</strong> {{ mesure.codeMesure }}</p>
+      <p><strong>Date début :</strong> {{ mesure.dateDebut }}</p>
+      <p><strong>Date fin :</strong> {{ mesure.dateFin }}</p>
+      <p><strong>Numéro quota :</strong> {{ mesure.numeroQuota }}</p>
+
+      <div class="sub-card">
+        <h4>✅ Validations</h4>
+        <ul>
+          <li *ngFor="let val of mesure.validations">
+            <p><strong>ID :</strong> {{ val.idValidation }}</p>
+            <p><strong>Commentaire :</strong> {{ val.commentaire }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🗒️ Notes</h3>
+    <div *ngIf="taric.notes?.length; else noNotes">
+      <ul>
+        <li *ngFor="let note of taric.notes">
+          <p>{{ note }}</p>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noNotes>
+      <p>Aucune note disponible</p>
+    </ng-template>
+  </div>
+</div>

@@ -35,6 +35,9 @@ import { MatNativeDateModule, MatOptionModule, provideNativeDateAdapter } from '
 import { MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import {  MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
+import { errorInterceptor } from './interceptors/error-interceptor';
+import { TaricFullDetails } from './component/pages/taric-full-details/taric-full-details';
+import { AddMesure } from './component/pages/add-mesure/add-mesure';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,9 @@ import { MatMenuModule } from '@angular/material/menu';
     SearchResults,
     Add,
     AddNotes,
-    Footer
+    Footer,
+    TaricFullDetails,
+    AddMesure
    
     
  
@@ -87,7 +92,7 @@ import { MatMenuModule } from '@angular/material/menu';
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
      provideHttpClient(),
-  provideHttpClient(withInterceptors([authInterceptor])),
+  provideHttpClient(withInterceptors([authInterceptor , errorInterceptor])),
   provideNativeDateAdapter(),
   
   ],
