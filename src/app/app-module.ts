@@ -38,6 +38,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { errorInterceptor } from './interceptors/error-interceptor';
 import { TaricFullDetails } from './component/pages/taric-full-details/taric-full-details';
 import { AddMesure } from './component/pages/add-mesure/add-mesure';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 
 @NgModule({
   declarations: [
@@ -86,7 +89,8 @@ import { AddMesure } from './component/pages/add-mesure/add-mesure';
     MatNativeDateModule,
     MatSnackBarModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

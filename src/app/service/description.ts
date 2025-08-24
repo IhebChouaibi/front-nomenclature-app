@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../enviroment/enviroment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Description } from '../models/description';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Description {
+export class DescriptionService {
     private baseUrl = environment.apiUrl; 
   
  constructor(private http: HttpClient) {}

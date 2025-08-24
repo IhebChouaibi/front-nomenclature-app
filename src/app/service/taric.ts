@@ -12,13 +12,13 @@ import { TaricWithDetailsRequest } from '../models/taric-with-details-request';
   providedIn: 'root'
 })
 export class Taric {
-    private baseUrl = environment.apiUrl; 
+    private baseUrl = environment.apiUrl + '/taric'; 
   private selectedTaric: any;
 
  constructor(private http: HttpClient) {}
 
   createTaric(request: TaricWithDetailsRequest): Observable<TARIC> {
-    return this.http.post<TARIC>(`${this.baseUrl}/taric/addTaric`, request, { withCredentials: true });
+    return this.http.post<TARIC>(`${this.baseUrl}/addTaric`, request, { withCredentials: true });
   }
 
 
@@ -30,17 +30,17 @@ export class Taric {
       .set('page', page.toString())
       .set('size', size.toString());
       
-      return this.http.get<PageResponse<TARIC>>(`${this.baseUrl}/taric/search`, { params, withCredentials: true });
+      return this.http.get<PageResponse<TARIC>>(`${this.baseUrl}/search`, { params, withCredentials: true });
     }
   getSuffix(idSuffix : number):Observable<Suffix> {
     return this.http.get<Suffix>(`${this.baseUrl}/taric/suffix/${idSuffix}`, { withCredentials: true });
   }
 
   addSuffix(idNomenclature : number,suffix: Suffix): Observable<Suffix> {
-    return this.http.post<Suffix>(`${this.baseUrl}/taric/addSuffix/${idNomenclature}`, suffix, { withCredentials: true });
+    return this.http.post<Suffix>(`${this.baseUrl}/addSuffix/${idNomenclature}`, suffix, { withCredentials: true });
   } 
   getTaricById(idNomenclature : number):Observable<TARIC>{
-    return this.http.get<TARIC>(`${this.baseUrl}/taric/getTaricById?idTaric=${idNomenclature}` ,{withCredentials :true});
+    return this.http.get<TARIC>(`${this.baseUrl}/getTaricById?idTaric=${idNomenclature}` ,{withCredentials :true});
   }
 
   setTaric(taric: any) {

@@ -1,4 +1,4 @@
-import { Validation } from "./validation";
+import { Validations } from "./validations";
 
 export interface Mesure {
     idMesure:number,
@@ -6,6 +6,6 @@ export interface Mesure {
     dateDebut :Date,
     dateFin :Date,
     numeroQuota :string,
-    validations :Validation[]
+    validations :Validations[]
 
 }

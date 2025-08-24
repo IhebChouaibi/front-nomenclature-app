@@ -1,5 +1,6 @@
-import { Description } from "../service/description";
-import { Notes } from "../service/notes";
+
+import { Description } from "./description";
+import { Notes } from "./notes";
 import { Suffix } from "./suffix";
 
 export interface TaricWithDetailsRequest {

@@ -1,11 +1,6 @@
-import { ChangeDetectorRef, Component, Inject, Input } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PopUp } from '../pop-up/pop-up';
-import { Add } from '../add/add';
-import { AddNotes } from '../add-notes/add-notes';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Taric } from '../../service/taric';
-import { Notes } from '../../service/notes';
+import {  Component, Inject, Input } from '@angular/core';
+import { MAT_DIALOG_DATA,  MatDialogRef } from '@angular/material/dialog';
+
 import { Route, Router } from '@angular/router';
 
 @Component({
@@ -17,10 +12,7 @@ import { Route, Router } from '@angular/router';
 export class Info {
     constructor(@Inject(MAT_DIALOG_DATA) public data: any
     ,private dialogRef: MatDialogRef<Info>, 
-    private dialog: MatDialog ,
-    private snackBar: MatSnackBar,
-    private notesService :Notes,
-    private cdr: ChangeDetectorRef,
+
     private router :Router     
 
    ) {
@@ -44,34 +36,6 @@ export class Info {
     this.router.navigate(['/taric-info',this.data.idNomenclature])
     this.fermer();
   }
-  addNotes(): void {
-    const dialogRef = this.dialog.open(AddNotes, {
-      width: '400px',
-      data: {
-        titre: 'Ajouter une note',
-        contenu: '',
-        dateDebutValid: '',
-        dateFinValid: '',
-        idNomenclature: this.data.idNomenclature
-      }
-    }) 
-    .afterClosed().subscribe(result => {
-      if (result) {
-console.log('Note ajoutée:', result);
 
-        this.notesService.addNotesToTaric(this.data.idNomenclature,result).subscribe(response => {
-           this.snackBar.open('Note ajoutée avec succès', 'Fermer', {
-          duration: 3000,
-        });
-         this.cdr.detectChanges(); 
-        }     )
-          
-      } else {
-        this.snackBar.open('Aucune note ajoutée', 'Fermer', {
-          duration: 3000,
-        });
-      }
-    });
-  }
   
 }

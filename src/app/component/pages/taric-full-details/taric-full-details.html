@@ -2,60 +2,134 @@
 <div class="taric-details-container">
   <h2>🔹 Détails Nomenclature</h2>
 
-  <div class="card">
+  <div class="card" >
     <p><strong>ID :</strong> {{ taric.idNomenclature }}</p>
-    <p><strong>Code :</strong> {{ taric.codeNomenclature }}</p>
+    <p><strong>Code :</strong> {{ taric.codeNomenclature }}  - {{suffixMap[taric.idSuffix] }}</p>
     <p><strong>Date début validité :</strong> {{ taric.dateDebutValid }}</p>
     <p><strong>Date fin validité :</strong> {{ taric.dateFinValid }}</p>
-    <p><strong>ID Suffix :</strong> {{ taric.idSuffix }}</p>
   </div>
 
-  <div class="card">
+  <div >
     <h3>📝 Descriptions</h3>
     <ul>
-      <li *ngFor="let desc of taric.descriptions">
-        <p><strong>ID :</strong> {{ desc.id }}</p>
-        <p><strong>Status :</strong> {{ desc.status }}</p>
-        <p><strong>Date début :</strong> {{ desc.dateDebut }}</p>
-        <p><strong>Date fin :</strong> {{ desc.dateFin }}</p>
+     <li >
+ <mat-expansion-panel>
+  <mat-expansion-panel-header [collapsedHeight]="'120px'" [expandedHeight]="'150px'">
+    <ng-container *ngFor="let desc of taric.descriptions">
+      <ng-container *ngIf="desc.status == '1'">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <p><strong>Description :</strong> {{ desc.description }}</p>
+          <div style="display: flex; gap: 15px;">
+            <p><strong>Status :</strong> Active</p>
+            <p><strong>Date début :</strong> {{ desc.dateDebut }}</p>
+            <p><strong>Date fin :</strong> {{ desc.dateFin }}</p>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </mat-expansion-panel-header>
+
+  <ng-template matExpansionPanelContent>
+    <ng-container *ngFor="let desc of taric.descriptions">
+      <ng-container *ngIf="desc.status != '1'">
+        <hr>
         <p><strong>Description :</strong> {{ desc.description }}</p>
-        <hr />
-      </li>
+        <div style="display: flex; gap: 15px;">
+          <p><strong>Status :</strong> Inactive</p>
+          <p><strong>Date début :</strong> {{ desc.dateDebut }}</p>
+          <p><strong>Date fin :</strong> {{ desc.dateFin }}</p>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+</mat-expansion-panel>
+
+
+  <hr />
+</li>
+
     </ul>
   </div>
 
-  <div class="card">
-    <h3>📏 Mesures</h3>
+  
+<div class="card">
+  <h3>📏 Mesures</h3>
+  
+  <div *ngIf="!taric.mesures || taric.mesures.length === 0" class="no-measures">
+    <p>Aucune mesure appliquée</p>
+    
+  </div>
+  
+  <div *ngIf="taric.mesures && taric.mesures.length > 0">
     <div *ngFor="let mesure of taric.mesures" class="mesure">
-      <p><strong>ID :</strong> {{ mesure.idMesure }}</p>
-      <p><strong>Code :</strong> {{ mesure.codeMesure }}</p>
-      <p><strong>Date début :</strong> {{ mesure.dateDebut }}</p>
-      <p><strong>Date fin :</strong> {{ mesure.dateFin }}</p>
-      <p><strong>Numéro quota :</strong> {{ mesure.numeroQuota }}</p>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header [collapsedHeight]="'120px'" [expandedHeight]="'150px'">
+          <ng-container *ngIf="getMesuresByStatus('APPROUVE').length > 0; else noApprouveHeader">
+            <div *ngFor="let mesure of getMesuresByStatus('APPROUVE')" style="display: flex; flex-direction: column; gap: 6px;">
+              <p><strong>Code :</strong> {{ mesure.codeMesure }}</p>
+              <div style="display: flex; gap: 15px;">
+                <p><strong>Date début :</strong> {{ mesure.dateDebut }}</p>
+                <p><strong>Date fin :</strong> {{ mesure.dateFin }}</p>
+                <p><strong>Numéro quota :</strong> {{ mesure.numeroQuota }}</p>
+              </div>
+            </div>
+          </ng-container>
 
-      <div class="sub-card">
-        <h4>✅ Validations</h4>
-        <ul>
-          <li *ngFor="let val of mesure.validations">
-            <p><strong>ID :</strong> {{ val.idValidation }}</p>
-            <p><strong>Commentaire :</strong> {{ val.commentaire }}</p>
-          </li>
-        </ul>
-      </div>
+          <ng-template #noApprouveHeader>
+             Aucune mesure approuvée
+          </ng-template>
+        </mat-expansion-panel-header>
+
+        <section>
+          <h3> Mesures en attente ({{ getMesuresByStatus('EN_ATTENTE').length }})</h3>
+          <ng-container *ngIf="getMesuresByStatus('EN_ATTENTE').length > 0; else noAttente">
+            <div *ngFor="let mesure of getMesuresByStatus('EN_ATTENTE')" class="mesure">
+              <p><strong>Code :</strong> {{ mesure.codeMesure }}</p>
+              <p><strong>Date début :</strong> {{ mesure.dateDebut }}</p>
+              <p><strong>Date fin :</strong> {{ mesure.dateFin }}</p>
+              <p><strong>Numéro quota :</strong> {{ mesure.numeroQuota }}</p>
+
+              <div class="sub-card" *ngIf="mesure.validations?.length">
+                <h4> Validations</h4>
+                <ul>
+                  <li *ngFor="let val of mesure.validations">
+                    <p><strong>ID :</strong> {{ val.idValidation }}</p>
+                    <p><strong>Status :</strong> {{ statutMap[val.idStatus] }}</p>
+                    <p><strong>Commentaire :</strong> {{ val?.commentaire }}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noAttente>
+            Aucune mesure en attente
+          </ng-template>
+        </section>
+      </mat-expansion-panel>
     </div>
   </div>
-
-  <div class="card">
+</div>
+  <div class="card" >
     <h3>🗒️ Notes</h3>
     <div *ngIf="taric.notes?.length; else noNotes">
       <ul>
         <li *ngFor="let note of taric.notes">
-          <p>{{ note }}</p>
+          <p>{{ note.contenu }}</p>
+          <br>
+          
+            <button mat-button (click)="addNotes(taric.idNomenclature)">delete</button>
+            <button mat-button (click)="addNotes(taric.idNomenclature)">update</button>
+
         </li>
+      
       </ul>
     </div>
     <ng-template #noNotes>
       <p>Aucune note disponible</p>
+                <button mat-button (click)="addNotes(taric.idNomenclature)">add</button>
+
     </ng-template>
+
+
   </div>
-</div>
+

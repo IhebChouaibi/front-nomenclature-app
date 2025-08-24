@@ -1,23 +1,17 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
-import { HomeService } from '../../../service/home-service';
-import { Section } from '../../../models/section';
-import { PageResponse } from '../../../models/page-response';
+
 import { Chapitre } from '../../../models/chapitre';
-import { Position } from '../../../models/position';
-import { Sousposition } from '../../../models/sousposition';
-import { NC } from '../../../models/nc';
+
 import { Info } from '../../info/info';
 import { MatDialog } from '@angular/material/dialog';
 import { TARIC } from '../../../models/taric';
 import { ImportData } from '../../../service/import-data';
 import { Exportdata } from '../../exportdata/exportdata';
 import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
-import { FormGroup } from '@angular/forms';
-import { Suffix } from '../../../models/suffix';
+
 import { Taric } from '../../../service/taric';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Description } from '../../../service/description';
-import { Notes } from '../../../service/notes';
+
 @Component({
   selector: 'app-home',
   standalone: false,

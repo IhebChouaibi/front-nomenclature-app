@@ -4,6 +4,6 @@ export interface NC {
      idNCombinee: number;
   codeNCombinee: string;
   libelleNC:string;
-  nomenclatures: TARIC[];         // Ajouter les TARIC
+  nomenclatures: TARIC[];         
   expanded?: boolean;    
 }
