@@ -3,11 +3,12 @@ import { environment } from '../../enviroment/enviroment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TARIC } from '../models/taric';
+import { Reglementation } from '../models/reglementation';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Reglementation {
+export class ReglementationService {
 
     private baseUrl = environment.apiUrl; 
 

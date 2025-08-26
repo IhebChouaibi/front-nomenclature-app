@@ -58,10 +58,22 @@
 }
 
 .hierarchy-item {
+  display: flex;
+  
+    justify-content: space-between;
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #f5f5f5;
   transition: background-color 0.2s;
+}
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* petit espace entre icône et texte */
+}
+
+.item-right {
+  flex-shrink: 0; /* éviter que le bouton soit compressé */
 }
 
 .hierarchy-item:hover {
@@ -84,18 +96,33 @@
 }
 
 .hierarchy-item.sous-position {
+    flex-direction: column;
   padding-left: 25px;
   border-left: 2px solid #4f46e5;
+ 
+  
 }
 
 .hierarchy-item.nc {
+    flex-direction: column;
   padding-left: 45px;
   border-left: 2px solid #28a745;
 }
 
 .hierarchy-item.taric {
+    flex-direction: column;
   padding-left: 65px;
   border-left: 2px solid #ff6b6b;
+
+}
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.item-right {
+  margin-left: auto; /* pousse le bouton complètement à droite */
 }
 
 .toggle-icon {

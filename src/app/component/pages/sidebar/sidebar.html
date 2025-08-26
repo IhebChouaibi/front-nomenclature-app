@@ -16,6 +16,7 @@
     <table>
       <tbody>
         <ng-container *ngFor="let section of sectionsData?.content">
+          
           <tr>
             <td>Section {{ section.codeSection }} :</td>
             <td>
@@ -36,13 +37,15 @@
                 <button class="dropdown-toggle">⋮</button>
                 <div class="dropdown-menu">
                   <button (click)="startEdit('section', section.idSection)">Modifier</button>
-                  <button (click)="addChapitre(section.idSection)"> Add Chapitre {{section.idSection}}</button>
+                  <button (click)="addChapitre(section.idSection)"> Add Chapitre</button>
                   <button (click)="deleteItem('section', section.idSection)">Supprimer</button>
                 </div>
               </div>
+              
             </td>
             
           </tr>
+          
 
           
           <tr *ngIf="state.expandedSectionId === section.idSection" class="chapitres-row">
@@ -56,6 +59,7 @@
                     <span class="chapitre-code">Chapitre {{ chapitre.codeChapitre }}:</span>
                     <ng-container *ngIf="state.editingChapitreId !== chapitre.idChapitre;">
                       <span class="chapitre-libelle">{{ chapitre.libelleChapitre }}</span>
+                    
                     </ng-container>
                     
                     <div class="dropdown">

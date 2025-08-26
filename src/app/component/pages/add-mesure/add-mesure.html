@@ -1,1 +1,50 @@
-<p>add-mesure works!</p>
+<form [formGroup]="mesureForm" (ngSubmit)="onSubmit()" class="mesure-form">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Code Mesure</mat-label>
+    <input matInput formControlName="codeMesure" placeholder="Entrez le code de la mesure">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="half-width">
+    <mat-label>Date Début</mat-label>
+    <input matInput [matDatepicker]="picker1" formControlName="dateDebut">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="half-width">
+    <mat-label>Date Fin</mat-label>
+    <input matInput [matDatepicker]="picker2" formControlName="dateFin">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Numéro Quota</mat-label>
+    <input matInput formControlName="numeroQuota" placeholder="Ex: Q12345">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Mouvement Commercial</mat-label>
+    <mat-select formControlName="idMvtCommercial">
+      <mat-option *ngFor="let mvt of mvtList" [value]="mvt.idMvtCommercial">
+        {{ mvt.libelle }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Règlementation</mat-label>
+    <mat-select formControlName="idReglement">
+      <mat-option *ngFor="let reg of reglementList" [value]="reg.idReglement">
+        {{ reg.codeReglementation }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="mesureForm.invalid">
+    ➕ Ajouter Mesure
+  </button>
+  
+</form>

@@ -16,6 +16,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class SearchResults implements OnInit {
   searchTerm: string = '';
   codeTaric = '';
+  
   taricList : PageResponse<any>= {
   content: [],
   totalPages: 0,

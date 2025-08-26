@@ -33,7 +33,7 @@ export class Taric {
       return this.http.get<PageResponse<TARIC>>(`${this.baseUrl}/search`, { params, withCredentials: true });
     }
   getSuffix(idSuffix : number):Observable<Suffix> {
-    return this.http.get<Suffix>(`${this.baseUrl}/taric/suffix/${idSuffix}`, { withCredentials: true });
+    return this.http.get<Suffix>(`${this.baseUrl}/suffix/${idSuffix}`, { withCredentials: true });
   }
 
   addSuffix(idNomenclature : number,suffix: Suffix): Observable<Suffix> {

@@ -1,59 +1,135 @@
 <app-navbar></app-navbar>
 <div class="container">
- 
- <app-sidebar 
+  <app-sidebar 
     (chapitreSelected)="onChapitreSelected($event)"
     class="sidebar">
   </app-sidebar>
   
   <div class="main-content">
-<div class="dropdown">
-  <button matButton="elevated"
+    <div class="dropdown">
+      <button matButton="elevated"
         matTooltip="Add Nomenclature"
         aria-label="Button that displays a tooltip when focused or hovered over"
         class="dropdown-toggle">
-+</button>
+        +
+      </button>
 
-  <div class="dropdown-menu">
-    <button (click)="openAddFile()">Importer un fichier</button>
-    <button (click)="openAddNomenclature()">Ajouter manuellement</button>
-  </div>
-</div>
+      <div class="dropdown-menu">
+        <button (click)="openAddFile()">Importer un fichier</button>
+        <button (click)="openAddNomenclature()">Ajouter manuellement</button>
+        <button (click)="addMesur()">Ajouter</button>
+      </div>
+    </div>
 
-<div class="upload-zone">
-  <div *ngIf="uploadMessage" [ngClass]="{'success': uploadMessage.startsWith('✅'), 'error': uploadMessage.startsWith('❌')}">
-    {{ uploadMessage }}
-  </div>
-  <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
-</div>
-
+    <div class="upload-zone">
+      <div *ngIf="uploadMessage" [ngClass]="{'success': uploadMessage.startsWith('✅'), 'error': uploadMessage.startsWith('❌')}">
+        {{ uploadMessage }}
+      </div>
+      <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
+    </div>
 
     <div *ngIf="selectedChapitre">
-<h2 class="hierarchy-title">
-  Hiérarchie pour : <span class="chapter-name">{{ selectedChapitre.libelleChapitre }}</span>
-</h2>
-      <div *ngFor="let position of selectedChapitre.positions" class="hierarchy-container">
-        <div class="hierarchy-item" (click)="togglePosition(position.idPosition)" [class.selected]="state.expandedPositionId === position.idPosition">
-          <span class="toggle-icon">{{ state.expandedPositionId === position.idPosition ?'🗁':'🗀'   }}</span>
-          {{ position.codePosition }} - {{ position.libellePosition }}
-        </div>
-        <div *ngIf="state.expandedPositionId === position.idPosition">
-          <div *ngFor="let sousPosition of position.sousPositions" class="hierarchy-item sous-position">
-            <div (click)="toggleSousPosition(sousPosition.idSousPosition)" [class.selected]="state.expandedSousPositionId === sousPosition.idSousPosition">
-              <span class="toggle-icon">{{ state.expandedSousPositionId === sousPosition.idSousPosition ? '🗁':'🗀'   }}</span>
-              {{ sousPosition.codeSousPosition }} - {{ sousPosition.libelleSousPosition }}
-            </div>
-            <div *ngIf="state.expandedSousPositionId === sousPosition.idSousPosition">
-              <div *ngFor="let nc of sousPosition.nomenclatureCombinees" class="hierarchy-item nc">
-                <div (click)="toggleNc(nc.idNCombinee)" [class.selected]="state.expandedNcId === nc.idNCombinee">
-                  <span class="toggle-icon">{{ state.expandedNcId === nc.idNCombinee ? '🗁':'🗀'   }}</span>
-                  {{ nc.codeNCombinee }}
-                </div>
-                <div *ngIf="state.expandedNcId === nc.idNCombinee">
-                  <div *ngFor="let taric of nc.nomenclatures" class="hierarchy-item taric" (click)="openInfoDialog(taric)" >
-                    {{ taric.codeNomenclature }}  - {{suffixMap[taric.idSuffix] }}
+      <h2 class="hierarchy-title">
+        Hiérarchie pour : <span class="chapter-name">{{ selectedChapitre.libelleChapitre }}</span>
+      </h2>
 
+      <div *ngFor="let position of selectedChapitre.positions" class="hierarchy-container">
+        <div class="hierarchy-item"
+          (click)="togglePosition(position.idPosition)"
+          [class.selected]="state.expandedPositionId === position.idPosition">
+
+          <div class="item-left">
+            <span class="toggle-icon">
+              {{ state.expandedPositionId === position.idPosition ? '🗁' : '🗀' }}
+            </span>
+            <span>
+              {{ position.codePosition }} - {{ position.libellePosition }}
+            </span>
+          </div>
+
+          <div class="item-right">
+            <button mat-button 
+              [matMenuTriggerFor]="menuPosition"
+              (click)="$event.stopPropagation()">
+             ⋮
+            </button>
+          </div>
+
+          <mat-menu #menuPosition="matMenu">
+            <button mat-menu-item (click)="addMesureForPosition(position); $event.stopPropagation()">
+              ➕ Mesure pour cette Position
+            </button>
+            <button mat-menu-item (click)="$event.stopPropagation()">
+              ⚙️ Autre Méthode
+            </button>
+          </mat-menu>
+        </div>
+
+        <div *ngIf="state.expandedPositionId === position.idPosition">
+          <div *ngFor="let sousPosition of position.sousPositions" class="hierarchy-item sous-position"
+            (click)="toggleSousPosition(sousPosition.idSousPosition)"
+            [class.selected]="state.expandedSousPositionId === sousPosition.idSousPosition">
+
+            <div class="item-left">
+              <span class="toggle-icon">
+                {{ state.expandedSousPositionId === sousPosition.idSousPosition ? '🗁':'🗀' }}
+              </span>
+              <span>
+                {{ sousPosition.codeSousPosition }} - {{ sousPosition.libelleSousPosition }}
+              </span>
+            </div>
+
+            <div class="item-right">
+              <button mat-button 
+                [matMenuTriggerFor]="menuSousPosition"
+                (click)="$event.stopPropagation()">
+                ⋮
+              </button>
+            </div>
+
+            <mat-menu #menuSousPosition="matMenu">
+              <button mat-menu-item (click)="addMesureForSousPosition(sousPosition); $event.stopPropagation()">
+                ➕ Mesure pour cette Sous-Position
+              </button>
+              <button mat-menu-item (click)="$event.stopPropagation()">
+                ⚙️ Autre Méthode
+              </button>
+            </mat-menu>
+
+            <div *ngIf="state.expandedSousPositionId === sousPosition.idSousPosition">
+              <div *ngFor="let nc of sousPosition.nomenclatureCombinees" class="hierarchy-item nc"
+                (click)="toggleNc(nc.idNCombinee); $event.stopPropagation()"
+                [class.selected]="state.expandedNcId === nc.idNCombinee">
+
+                <div class="item-left">
+                  <span class="toggle-icon">
+                    {{ state.expandedNcId === nc.idNCombinee ? '🗁':'🗀' }}
+                  </span>
+                  <span>{{ nc.codeNCombinee }}</span>
                 </div>
+
+                <div class="item-right">
+                  <button mat-button 
+                    [matMenuTriggerFor]="menuNc"
+                    (click)="$event.stopPropagation()">
+                    ⋮
+                  </button>
+                </div>
+
+                <mat-menu #menuNc="matMenu">
+                  <button mat-menu-item>
+                    ➕ Mesure pour cette NC
+                  </button>
+                  <button mat-menu-item (click)="$event.stopPropagation()">
+                    ⚙️ Autre Méthode
+                  </button>
+                </mat-menu>
+
+                <div *ngIf="state.expandedNcId === nc.idNCombinee">
+                  <div *ngFor="let taric of nc.nomenclatures" class="hierarchy-item taric"
+                    (click)="openInfoDialog(taric); $event.stopPropagation()">
+                    {{ taric.codeNomenclature }} - {{ suffixMap[taric.idSuffix] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -61,9 +137,9 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="!selectedChapitre" class="placeholder">
       <p>Sélectionnez un chapitre pour afficher la hiérarchie complète</p>
     </div>
   </div>
-  
 </div>

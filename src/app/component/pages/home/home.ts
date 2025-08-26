@@ -11,6 +11,9 @@ import { AddNomenclature } from '../../add-nomenclature/add-nomenclature';
 
 import { Taric } from '../../../service/taric';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Position } from '../../../models/position';
+import { Sousposition } from '../../../models/sousposition';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +40,8 @@ suffixMap: { [key: number]: string } = {};
      private cdr: ChangeDetectorRef,
      private taricService: Taric,
   
-     private snackBar: MatSnackBar
+     private snackBar: MatSnackBar,
+     private  router :Router
   
   ){}
 
@@ -83,6 +87,7 @@ suffixMap: { [key: number]: string } = {};
       expandedTaricId :null
     };
   }
+
   
 
   togglePosition(id: number) {
@@ -217,4 +222,57 @@ openAddNomenclature() {
     }
     });
   }
+  addMesur(){
+    this.router.navigate(["/add-mesure"])
+  }
+  goToAddMesure(item: any, type: string) {
+  this.router.navigate(['/add-mesure'], {
+    queryParams: {
+      id: item.id,
+      type: type
+    }
+  });
+}
+// Get all TARIC IDs from a position
+getAllTaricIdsFromPosition(position: Position): number[] {
+  const ids: number[] = [];
+  position.sousPositions?.forEach(sp => {
+    sp.nomenclatureCombinees?.forEach(nc => {
+      nc.nomenclatures?.forEach(taric => {
+        ids.push(taric.idNomenclature);
+      });
+    });
+  });
+  return ids;
+}
+
+// Get all TARIC IDs from a sous-position
+getAllTaricIdsFromSousPosition(sousPosition: Sousposition): number[] {
+  const ids: number[] = [];
+  sousPosition.nomenclatureCombinees?.forEach(nc => {
+    nc.nomenclatures?.forEach(taric => {
+      ids.push(taric.idNomenclature);
+    });
+  });
+  return ids;
+}
+addMesureForPosition(position: Position) {
+  const taricIds = this.getAllTaricIdsFromPosition(position);
+  console.log("TARIC IDs for position:", taricIds);
+
+  this.router.navigate(['/add-mesure'], {
+    queryParams: { ids: taricIds.join(','), type: 'position' }
+  });
+}
+
+// When user clicks “Add Mesure” on a sous-position
+addMesureForSousPosition(sousPosition: Sousposition) {
+  const taricIds = this.getAllTaricIdsFromSousPosition(sousPosition);
+  console.log("TARIC IDs for sous-position:", taricIds);
+
+  this.router.navigate(['/add-mesure'], {
+    queryParams: { ids: taricIds.join(','), type: 'sousPosition' }
+  });
+}
+
 }

@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Mesure } from '../models/mesure';
 import { Observable } from 'rxjs';
 import { MouvementCommercial } from '../models/mouvement-commercial';
-import { Reglementation } from './reglementation';
+import { Reglementation } from '../models/reglementation';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,11 @@ export class MesureService{
     
    constructor(private http: HttpClient) {}
 
-  public getAllMvt():Observable<MouvementCommercial>{
-    return this.http.get<MouvementCommercial>(`${this.baseUrl}/getAllMvt`,{withCredentials:true})
+  public getAllMvt():Observable<MouvementCommercial[]>{
+    return this.http.get<MouvementCommercial[]>(`${this.baseUrl}/getAllMvt`,{withCredentials:true})
   }
-  public getAllReglement():Observable<Reglementation>{
-    return this.http.get<Reglementation>(`${this.baseUrl}/getAllReglementation`,{withCredentials:true})
+  public getAllReglement():Observable<Reglementation[]>{
+    return this.http.get<Reglementation[]>(`${this.baseUrl}/getAllReglementation`,{withCredentials:true})
   }
 
    public addMesure(idTarics :number[], mesure:Mesure):Observable<Mesure>{
