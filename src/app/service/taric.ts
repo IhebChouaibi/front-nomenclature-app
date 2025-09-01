@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Suffix } from '../models/suffix';
 import { Notes } from '../models/notes';
 import { TaricWithDetailsRequest } from '../models/taric-with-details-request';
+import { MesureResponse } from '../models/mesure-response';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,13 @@ export class Taric {
   getTaric() {
     return this.selectedTaric;
   }
+  getTaricsByid(idTarics :number[]):Observable<Taric[]>{
+    let params = new HttpParams();
+    idTarics.forEach(id => {
+      params = params.append('idTarics', id.toString());
+    });
+  return this.http.get<Taric[]>(`${this.baseUrl}/getTaricsById`,{params,withCredentials:true})
+}
+
 
 }

@@ -36,7 +36,7 @@ export class Login {
 
     this.auth.login(this.authRequest).subscribe({
      next: response => {
-      if (response.role === 'ADMIN') {
+      if (response.role === 'ADMIN' || response.role==='RESPONSABLE') {
         this.auth.saveAuthData(response);
         this.router.navigate(['/home']);
       } else {

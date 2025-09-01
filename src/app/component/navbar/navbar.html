@@ -1,8 +1,6 @@
 <nav class="navbar">
   <div class="container">
     <div class="navbar-start">
-      
-
       <div class="mobile-actions">
         <button class="menu-toggle" aria-label="Toggle navigation">
           <span class="menu-icon"></span>
@@ -14,16 +12,49 @@
     <div class="navbar-center">
       <div class="nav-links">
         <a (click)="goToHome()">Home</a>
-        <a >Products</a>
-       
-        <a >About Us</a>
-        <a  (click)="logout()" >Logout</a>
-           <div class="navbar-end">
-      <span class="search-icon"></span>
-    </div>
+        <a (click)="goToTasks()" *ngIf="auth.getRole() === 'RESPONSABLE'">Tasks</a>
+        <div class="dropdown" *ngIf="auth.getRole() === 'ADMIN'">
+          <button class="dropdown-toggle">Add</button>
+          <div class="dropdown-menu">
+            <button (click)="openAddFile()">Importer un fichier</button>
+            <button (click)="openAddNomenclature()">Ajouter manuellement</button>
+          </div>
+        </div>
+        <a>About Us</a>
+        <a (click)="logout()">Logout</a>
       </div>
     </div>
     
-   
+    <div class="navbar-end">
+      <div class="notif-container" (click)="toggleNotif()">
+        <span class="bell-icon">📩</span>
+        <span class="badge" *ngIf="getUnreadNotificationsCount() > 0">
+            {{ getUnreadNotificationsCount() }}
+        </span>
+ 
+        <div class="notif-dropdown" *ngIf="showNotif" [class.show]="showNotif">
+          <div class="notif-header">
+            <span>Notifications</span>
+            <button (click)="goToTasks()" class="clear-btn" *ngIf="auth.getRole() === 'RESPONSABLE'">voir plus</button>
+          </div>
+          
+          <div class="notif-content">
+            <ng-container *ngIf="notifications.length > 0; else noNotif">
+              <div *ngFor="let notif of notifications" class="notif-item" (click)="openTraiterDialog(notif.mesureId,notif.idNotif)">
+                <div class="notif-message">{{ notif.message }}</div>
+                <div class="notif-time">{{transform( notif.createdAt )}}</div>
+                <div *ngIf="!notif.seen" class="unread-indicator">●</div>
+              
+              </div>
+            </ng-container>
+            
+            <ng-template #noNotif>
+              <div class="notif-empty">Aucune notification</div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <span class="search-icon"></span>
+    </div>
   </div>
 </nav>

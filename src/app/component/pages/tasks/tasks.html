@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+
+<div class="mesures-container">
+  <div *ngFor="let mesure of MesureData?.content"
+       class="mesure-box"
+       (mousedown)="press($event, mesure.idMesure)"
+       (mouseup)="release($event)"
+       (touchstart)="press($event, mesure.idMesure)"
+       (touchend)="release($event)">
+
+    <mat-checkbox *ngIf="selectionMode"
+                  [checked]="selectedMesures.includes(mesure.idMesure)"
+                  (change)="toggleSelection(mesure.idMesure)">
+    </mat-checkbox>
+
+    <div class="mesure-info">
+      <p><strong>Code :</strong> {{ mesure.codeMesure }}</p>
+      <p><strong>Date début :</strong> {{ mesure.dateDebut }}</p>
+      <p><strong>Date fin :</strong> {{ mesure.dateFin }}</p>
+      <p><strong>Quota :</strong> {{ mesure.numeroQuota }}</p>
+
+      <ul>
+        <li *ngFor="let v of mesure.validations">
+          Validation : {{ v.commentaire }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectionMode" class="actions">
+  <button mat-raised-button color="primary" (click)="accepter()">Accepter</button>
+  <button mat-raised-button color="warn" (click)="rejeter()">Rejeter</button>
+  <button mat-stroked-button (click)="clearSelection()">Annuler</button>
+</div>
+
+<mat-paginator [length]="MesureData.totalElements || 0"
+               [pageSize]="7"
+               [pageSizeOptions]="[5, 7, 10, 20]"
+               (page)="onPageChange($event)">
+</mat-paginator>

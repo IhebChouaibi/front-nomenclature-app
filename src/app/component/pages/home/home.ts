@@ -14,6 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Position } from '../../../models/position';
 import { Sousposition } from '../../../models/sousposition';
+import { AuthService } from '../../../service/auth-service';
+import { NotesService } from '../../../service/notes';
+import { AddNotes } from '../../add-notes/add-notes';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +28,9 @@ export class Home implements OnInit {
   
  isMobile = false; 
   selectedChapitre: Chapitre | null = null; 
-isUploading = false;
-uploadMessage = '';
-suffixMap: { [key: number]: string } = {};
 
+suffixMap: { [key: number]: string } = {};
+private currentIds: number[] = [];
   state = {
     expandedPositionId: null as number | null, 
     expandedSousPositionId: null as number | null,
@@ -36,12 +38,13 @@ suffixMap: { [key: number]: string } = {};
     expandedTaricId : null as number |null
   };
   constructor (private dialog : MatDialog,
-    private importData : ImportData ,
+    
      private cdr: ChangeDetectorRef,
      private taricService: Taric,
-  
+     private notesService :NotesService,
      private snackBar: MatSnackBar,
-     private  router :Router
+     private  router :Router,
+     public auth: AuthService
   
   ){}
 
@@ -143,85 +146,8 @@ suffixMap: { [key: number]: string } = {};
     });
    
   }
-openAddFile(): void {
-  const dialogRef = this.dialog.open(Exportdata, { width: '500px' });
 
-  dialogRef.afterClosed().subscribe((file: File) => {
-    if (file) {
-      this.isUploading = true;
-      this.uploadMessage = "Importation en cours…";
-      this.cdr.detectChanges(); 
-      this.importData.importData(file).subscribe({
-        next: (res) => {
-          this.uploadMessage = "✅ Importation réussie !";
-          this.isUploading = false;
-          console.log('Import successful::::::::::::::::', res);
-                this.cdr.detectChanges(); 
 
-          setTimeout(() => {
-            this.uploadMessage = '';
-                  this.cdr.detectChanges(); 
-
-          }, 3000);
-        },
-        error: (err) => {
-          console.error('Import error:::::::::::::::', err);
-          this.uploadMessage = "❌ Erreur : " + (err?.error ?? 'Importation échouée.');
-          this.isUploading = false;
-                this.cdr.detectChanges(); 
-
-        }
-      });
-    }
-  });
-}
-
-openAddNomenclature() {
- const dialogRef = this.dialog.open(
-  AddNomenclature
-
-  , { width: '800px' ,
-    disableClose: true
-  }
-); dialogRef.afterClosed().subscribe(formData => {
-    if (formData) {
-      this.createTaricWithDetails(formData);
-    }
-  });
-}
-
- createTaricWithDetails(formData: any) {
-   const request = {
-    codeNomenclature: formData.codeNomenclature,
-    dateDebutValid: formData.dateDebutValid,
-    dateFinValid: formData.dateFinValid,
-    suffixDto: formData.suffixDto,
-      descriptions: formData.descriptions.map((d: any) => ({
-      description: d.description,
-      dateDebutValid: d.dateDebutValid,
-      dateFinValid: d.dateFinValid,
-      status: d.status ?? 1  
-    })),
-    notes: formData.notes || []};
-    this.taricService.createTaric(request).subscribe({
-         next: (response) => {
-      console.log("✅ TARIC créé avec détails :", response);
-      this.snackBar.open('TARIC créé avec succès !', 'Fermer', {
-        duration: 3000,
-        panelClass: ['success-snackbar']
-      });
-       this.cdr.detectChanges(); 
-      
-    },
-    error: (err) => {
-      console.error("❌ Erreur lors de la création :", err);
-      this.snackBar.open('Erreur lors de la création du TARIC.', 'Fermer', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-    }
-    });
-  }
   addMesur(){
     this.router.navigate(["/add-mesure"])
   }
@@ -233,7 +159,6 @@ openAddNomenclature() {
     }
   });
 }
-// Get all TARIC IDs from a position
 getAllTaricIdsFromPosition(position: Position): number[] {
   const ids: number[] = [];
   position.sousPositions?.forEach(sp => {
@@ -246,7 +171,6 @@ getAllTaricIdsFromPosition(position: Position): number[] {
   return ids;
 }
 
-// Get all TARIC IDs from a sous-position
 getAllTaricIdsFromSousPosition(sousPosition: Sousposition): number[] {
   const ids: number[] = [];
   sousPosition.nomenclatureCombinees?.forEach(nc => {
@@ -265,7 +189,6 @@ addMesureForPosition(position: Position) {
   });
 }
 
-// When user clicks “Add Mesure” on a sous-position
 addMesureForSousPosition(sousPosition: Sousposition) {
   const taricIds = this.getAllTaricIdsFromSousPosition(sousPosition);
   console.log("TARIC IDs for sous-position:", taricIds);
@@ -275,4 +198,63 @@ addMesureForSousPosition(sousPosition: Sousposition) {
   });
 }
 
+ addNotesToTarics(ids: number[]): void {
+    this.currentIds = ids;
+    
+    const dialogRef = this.dialog.open(AddNotes, {
+      width: '400px',
+      data: {
+        titre: 'Ajouter une note',
+        contenu: '',
+        dateDebutValid: '',
+        dateFinValid: '',
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        if (result.idNomenclature) {
+          delete result.idNomenclature;
+        }
+        
+        console.log('Données à envoyer:', result);
+        console.log('IDs TARIC:', this.currentIds);
+        
+        this.notesService.addNotesToTarics(this.currentIds, result).subscribe({
+          next: (response) => {
+            this.snackBar.open('Note ajoutée avec succès', 'Fermer', {
+              duration: 3000,
+            });
+          },
+          error: (error) => {
+            console.error('Erreur lors de l\'ajout de la note', error);
+            this.snackBar.open('Erreur lors de l\'ajout de la note', 'Fermer', {
+              duration: 3000,
+            });
+          }
+        });
+      } else {
+        this.snackBar.open('Aucune note ajoutée', 'Fermer', {
+          duration: 3000,
+        });
+      }
+    });
+  }
+
+  addNoteToPosition(position: Position): void {
+    const taricIds = this.getAllTaricIdsFromPosition(position);
+    console.log('IDs pour la position:', taricIds);
+    this.addNotesToTarics(taricIds);
+  }
+
+  addNoteToSousPosition(sousPosition: Sousposition): void {
+    const taricIds = this.getAllTaricIdsFromSousPosition(sousPosition);
+    console.log('IDs pour la sous-position:', taricIds);
+    this.addNotesToTarics(taricIds);
+  }
+
+
+
+  addNoteToTaric(taric: TARIC): void {
+    console.log('ID pour le TARIC:', taric.idNomenclature);
+    this.addNotesToTarics([taric.idNomenclature]);
+  }
 }

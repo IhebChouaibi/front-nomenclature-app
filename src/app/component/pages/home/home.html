@@ -6,27 +6,7 @@
   </app-sidebar>
   
   <div class="main-content">
-    <div class="dropdown">
-      <button matButton="elevated"
-        matTooltip="Add Nomenclature"
-        aria-label="Button that displays a tooltip when focused or hovered over"
-        class="dropdown-toggle">
-        +
-      </button>
-
-      <div class="dropdown-menu">
-        <button (click)="openAddFile()">Importer un fichier</button>
-        <button (click)="openAddNomenclature()">Ajouter manuellement</button>
-        <button (click)="addMesur()">Ajouter</button>
-      </div>
-    </div>
-
-    <div class="upload-zone">
-      <div *ngIf="uploadMessage" [ngClass]="{'success': uploadMessage.startsWith('✅'), 'error': uploadMessage.startsWith('❌')}">
-        {{ uploadMessage }}
-      </div>
-      <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
-    </div>
+   
 
     <div *ngIf="selectedChapitre">
       <h2 class="hierarchy-title">
@@ -47,7 +27,7 @@
             </span>
           </div>
 
-          <div class="item-right">
+          <div class="item-right" *ngIf="auth.getRole() === 'ADMIN'">
             <button mat-button 
               [matMenuTriggerFor]="menuPosition"
               (click)="$event.stopPropagation()">
@@ -57,13 +37,15 @@
 
           <mat-menu #menuPosition="matMenu">
             <button mat-menu-item (click)="addMesureForPosition(position); $event.stopPropagation()">
-              ➕ Mesure pour cette Position
+              Add Mesure
             </button>
-            <button mat-menu-item (click)="$event.stopPropagation()">
-              ⚙️ Autre Méthode
+                      <button mat-menu-item (click)="addNoteToPosition(position); $event.stopPropagation()">
+              Add Note
             </button>
+
           </mat-menu>
         </div>
+       <mat-divider style="width: 10px;"></mat-divider>
 
         <div *ngIf="state.expandedPositionId === position.idPosition">
           <div *ngFor="let sousPosition of position.sousPositions" class="hierarchy-item sous-position"
@@ -79,7 +61,7 @@
               </span>
             </div>
 
-            <div class="item-right">
+            <div class="item-right" *ngIf="auth.getRole() === 'ADMIN'">
               <button mat-button 
                 [matMenuTriggerFor]="menuSousPosition"
                 (click)="$event.stopPropagation()">
@@ -87,12 +69,12 @@
               </button>
             </div>
 
-            <mat-menu #menuSousPosition="matMenu">
+            <mat-menu #menuSousPosition="matMenu" >
               <button mat-menu-item (click)="addMesureForSousPosition(sousPosition); $event.stopPropagation()">
-                ➕ Mesure pour cette Sous-Position
+               Add Mesure
               </button>
-              <button mat-menu-item (click)="$event.stopPropagation()">
-                ⚙️ Autre Méthode
+             <button mat-menu-item (click)="addNoteToSousPosition(sousPosition); $event.stopPropagation()">
+             Add Note
               </button>
             </mat-menu>
 
@@ -108,7 +90,7 @@
                   <span>{{ nc.codeNCombinee }}</span>
                 </div>
 
-                <div class="item-right">
+                <div class="item-right" *ngIf="auth.getRole() === 'ADMIN'">
                   <button mat-button 
                     [matMenuTriggerFor]="menuNc"
                     (click)="$event.stopPropagation()">
@@ -116,7 +98,7 @@
                   </button>
                 </div>
 
-                <mat-menu #menuNc="matMenu">
+                <mat-menu #menuNc="matMenu" >
                   <button mat-menu-item>
                     ➕ Mesure pour cette NC
                   </button>

@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { PopUp } from '../../pop-up/pop-up';
 import { Router } from '@angular/router';
 import { Add } from '../../add/add';
+import { AuthService } from '../../../service/auth-service';
 @Component({
   selector: 'app-sidebar',
   standalone: false,
@@ -35,6 +36,7 @@ export class Sidebar {
     private homeService: HomeService,
     private cdRef: ChangeDetectorRef,
     private dialog :MatDialog,
+   public auth: AuthService
     
   ) {}
 

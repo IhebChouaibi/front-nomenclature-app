@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <form [formGroup]="mesureForm" (ngSubmit)="onSubmit()" class="mesure-form">
 
   <mat-form-field appearance="outline" class="full-width">
@@ -26,7 +27,7 @@
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Mouvement Commercial</mat-label>
-    <mat-select formControlName="idMvtCommercial">
+    <mat-select formControlName="idMvtCommercial" (selectionChange)="onMvtChange($event)">
       <mat-option *ngFor="let mvt of mvtList" [value]="mvt.idMvtCommercial">
         {{ mvt.libelle }}
       </mat-option>

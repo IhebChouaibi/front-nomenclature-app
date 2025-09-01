@@ -2,22 +2,22 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
+  padding: 10%;
   max-width: 600px;
   margin: auto;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px #0000001a;
 }
 
 .full-width {
-  width: 100%;
+  width: 90%;
 }
 
 .half-width {
-  width: 48%;
+  width: 40%;
 }
 
 .mesure-form .mat-form-field {
-  font-size: 14px;
+  font-size: 13px;
 }

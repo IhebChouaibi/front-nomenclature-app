@@ -1,0 +1,180 @@
+.tariff-card {
+  
+      width: 100%;
+      max-width: 596px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px #00000014;
+      border: 1px solid #eaeef3;
+      animation: cardEntrance 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(0px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tariff-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      position: relative;
+    }
+
+    .tariff-header::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 24px;
+      width: 24px;
+      height: 24px;
+      background: #3b82f6;
+      transform: rotate(45deg);
+      z-index: 1;
+    }
+
+    .document-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .tariff-grid {
+      padding: 36px 24px 24px;
+      background: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    .grid-row {
+      display: flex;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 16px 0;
+    }
+
+    .grid-row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      width: 130px;
+      flex-shrink: 0;
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: -0.2px;
+    }
+
+    .value {
+      flex-grow: 1;
+      color: #1e293b;
+      font-weight: 500;
+      font-size: 1.05rem;
+      padding-left: 10px;
+      line-height: 1.5;
+    }
+
+    .notes .value {
+      color: #475569;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .tariff-footer {
+      padding: 20px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .close-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+    }
+
+    .close-btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(59, 130, 246, 0.25);
+    }
+
+    .close-btn:active {
+      transform: translateY(0);
+    }
+
+    .info-badge {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .tariff-card {
+        max-width: 95%;
+      }
+      
+      .tariff-header {
+        padding: 18px 20px;
+      }
+      
+      .tariff-grid {
+        padding: 36px 18px 24px;
+      }
+      
+      .grid-row {
+        flex-direction: column;
+        gap: 6px;
+      }
+      
+      .label {
+        width: 100%;
+        font-size: 0.9rem;
+      }
+      
+      .value {
+        padding-left: 0;
+        font-size: 1rem;
+      }
+    }

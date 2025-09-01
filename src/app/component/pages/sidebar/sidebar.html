@@ -34,7 +34,7 @@
             </td>
             <td class="action-cell">
               <div class="dropdown">
-                <button class="dropdown-toggle">⋮</button>
+                <button class="dropdown-toggle" *ngIf="auth.getRole() === 'ADMIN'">⋮</button>
                 <div class="dropdown-menu">
                   <button (click)="startEdit('section', section.idSection)">Modifier</button>
                   <button (click)="addChapitre(section.idSection)"> Add Chapitre</button>
@@ -63,7 +63,7 @@
                     </ng-container>
                     
                     <div class="dropdown">
-                      <button class="dropdown-toggle">⋮</button>
+                      <button class="dropdown-toggle" *ngIf="auth.getRole() === 'ADMIN'">⋮</button>
                       <div class="dropdown-menu">
                         <button (click)="startEdit('chapitre', chapitre.idChapitre)">Modifier</button>
 

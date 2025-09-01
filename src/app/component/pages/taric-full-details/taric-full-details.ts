@@ -23,7 +23,7 @@ export class TaricFullDetails implements OnInit {
   suffixMap: { [key: number]: string } = {};
   statut: { [key: number]: string } = {}; 
   statutMap: { [id: number]: string } = {};
-
+  taricId: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +38,7 @@ export class TaricFullDetails implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      
+     this.taricId = id;
      this.loadTaric(id);
 
     } else {
@@ -96,6 +96,7 @@ export class TaricFullDetails implements OnInit {
       }
     });
   }}
+
     addNotes(idNomenclature : number): void {
     const dialogRef = this.dialog.open(AddNotes, {
       width: '400px',
@@ -115,6 +116,7 @@ console.log('Note ajoutée:', result);
            this.snackBar.open('Note ajoutée avec succès', 'Fermer', {
           duration: 3000,
         });
+        this.loadTaric(this.taricId);
           if (!this.taric.notes) {
     this.taric.notes = [];
   }
@@ -132,9 +134,52 @@ console.log('Note ajoutée:', result);
   }
 
 
+  updateNote(note: any): void {
+    const dialogRef = this.dialog.open(AddNotes, {
+      width: '400px',
+      data: {
+        titre: 'Modifier la note',
+        contenu: note.contenu,
+        dateDebutValid: note.dateDebutValid,
+        dateFinValid: note.dateFinValid,
+        idNomenclature: this.taric.idNomenclature,
+        isEdit: true
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.notesService.updateNote(note.id, result).subscribe(response => {
+          this.cdr.detectChanges();
+          this.snackBar.open('Note modifiée avec succès', 'Fermer', {
+            duration: 3000,
+          });
+          this.loadTaric(this.taricId);
+          const index = this.taric.notes.findIndex((n: any) => n.id === note.id);
+          if (index !== -1) {
+            this.taric.notes[index] = response;
+            this.cdr.detectChanges();
+          }
+        });
+      }
+    });
+  }
+
+  deleteNote(noteId: number): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette note ?')) {
+      this.notesService.deleteNote(noteId).subscribe(() => {
+        this.snackBar.open('Note supprimée avec succès', 'Fermer', {
+          duration: 3000,
+        });
+        this.taric.notes = this.taric.notes.filter((note: any) => note.id !== noteId);
+       this.loadTaric(this.taricId);
+        this.cdr.detectChanges();
+      });
+    }
+  }
+
   getMesuresByStatus(status: string) {
   return this.taric?.mesures?.filter(m => 
     m.validations?.some(v => this.statutMap[v.idStatus] === status)
   ) || [];
   }
+  
 }

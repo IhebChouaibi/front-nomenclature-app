@@ -21,7 +21,7 @@ export class AddMesure {
   mesureForm!: FormGroup;
   mvtList: MouvementCommercial[] = [];
   reglementList: Reglementation[] = [];
- idEntity!: number;
+ idEntity: number[]= [];
   entityType!: string;
   constructor(
     private fb: FormBuilder,
@@ -34,9 +34,13 @@ export class AddMesure {
   ngOnInit(): void {
     
       this.route.queryParams.subscribe(params => {
-    this.idEntity = +params['id'];
-    this.entityType = params['type']; // "position", "sousPosition" ou "taric"
-    console.log("Ajouter mesure pour", this.entityType, "ID:", this.idEntity);
+   
+    const ids = params['ids'];
+    this.entityType = params['type']; 
+    if(ids){
+ this.idEntity = ids.split(',').map((id: string) => +id); 
+    }
+    console.log("Ajouter mesure pour--------------------------------------------------------------------------------------", this.entityType, "ID:", this.idEntity);
   });
 
     this.mesureForm = this.fb.group({
@@ -44,7 +48,7 @@ export class AddMesure {
       dateDebut: ['', Validators.required],
       dateFin: ['', Validators.required],
       numeroQuota: [''],
-      idMvtCommercial: [null, Validators.required],
+      idMvtCommercial: ['', Validators.required],
       idReglement: [null]
     });
 
@@ -70,40 +74,33 @@ export class AddMesure {
       error: (err) => console.error('Erreur chargement règlements', err)
     });
   }
-
-  onSubmit() {
-    if (this.mesureForm.invalid) {
-      return;
-    }
-
-    const mesure: Mesure = this.mesureForm.value;
-
-    // Exemple : ids Tarics simulés, à récupérer selon ton contexte
-    const idTarics: number[] = [1, 2]; 
-
-    this.mesureService.addMesure(idTarics, mesure).subscribe({
-      next: (res) => {
-        console.log('Mesure créée avec succès ✅', res);
-        alert('Mesure ajoutée avec succès');
-        this.mesureForm.reset();
-      },
-      error: (err) => {
-        console.error('Erreur lors de l’ajout de la mesure ❌', err);
-        alert('Erreur lors de l’ajout de la mesure');
-      }
-    });
+onMvtChange(event: any) {
+  const selectedId = event.value; 
+  console.log("Mvt sélectionné:", selectedId);
+}
+ 
+   onSubmit() {
+  if (this.mesureForm.invalid || !this.idEntity || this.idEntity.length === 0) {
+    alert("Pas d'IDs de TARIC trouvés !");
+    return;
   }
-  getAllTaricIds(nomenclatureCombinees: NC[]): number[] {
-  return nomenclatureCombinees.flatMap(nc => 
-    nc.nomenclatures?.map(taric => taric.idNomenclature) ?? []
-  );
-}
 
-getAllTaricIdsFromSousPosition(sp: Sousposition): number[] {
-  return this.getAllTaricIds(sp.nomenclatureCombinees);
-}
+  const mesure: Mesure = this.mesureForm.value;
+  
+  console.log("ID Mvt sélectionné:", mesure.idMvtCommercial);
+  this.mesureService.addMesure(this.idEntity, mesure).subscribe({
+    next: (res) => {
+      console.log('Mesure créée avec succès ', res);
+      alert('Mesure ajoutée avec succès' + res.idMvtCommercial);
 
-getAllTaricIdsFromPosition(position: Position): number[] {
-  return position.sousPositions?.flatMap(sp => this.getAllTaricIdsFromSousPosition(sp)) ?? [];
+      this.mesureForm.reset();
+    },
+    error: (err) => {
+      console.error('Erreur lors de l’ajout de la mesure ', err);
+      alert('Erreur lors de l’ajout de la mesure');
+    }
+  });
 }
-}
+  }
+  
+

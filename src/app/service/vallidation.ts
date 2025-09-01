@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../enviroment/enviroment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Statut } from '../models/statut';
+import { Mesure } from '../models/mesure';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class Vallidation {
 getStatut(idStatut: number): Observable<Statut> {
   return this.http.get<Statut>(`${this.baseUrl}/statut?idStatut=${idStatut}`);
 }
+
 
   
 }

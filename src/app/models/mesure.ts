@@ -6,6 +6,9 @@ export interface Mesure {
     dateDebut :Date,
     dateFin :Date,
     numeroQuota :string,
+    idMvtCommercial: number;  
+  idReglement?: number;
+ 
     validations :Validations[]
 
 }

@@ -7,6 +7,7 @@ import { SearchResults } from './component/pages/search-results/search-results';
 import { authReverseGuard } from './guards/auth-reverse-guard';
 import { TaricFullDetails } from './component/pages/taric-full-details/taric-full-details';
 import { AddMesure } from './component/pages/add-mesure/add-mesure';
+import { Tasks } from './component/pages/tasks/tasks';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, 
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'home', component: Home, canActivate: [adminGuard] ,   },
    { path: 'search', component: SearchResults },
    {path:'taric-info/:id', component : TaricFullDetails},
-   {path : 'add-mesure', component :AddMesure}
+   {path : 'add-mesure', component :AddMesure},
+   {path :'tasks' , component :Tasks }
 
 
 

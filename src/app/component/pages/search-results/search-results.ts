@@ -78,6 +78,13 @@ private dialog:MatDialog) {}
     });
 }
 
+getDescription(item: any): string {
+  if (item.descriptions && item.descriptions.length > 0) {
+    const last = item.descriptions[item.descriptions.length - 1];
+    return last.description;
+  }
+  return "—"; 
+}
 
   
  openInfoDialog (taric :TARIC) : void {

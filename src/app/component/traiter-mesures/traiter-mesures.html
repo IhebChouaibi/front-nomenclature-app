@@ -1,0 +1,61 @@
+<div class="tariff-card">
+  <div class="tariff-header">
+    <div class="document-icon">📄</div>
+    <h3 class="title">Détails de la mesure</h3>
+  </div>
+
+  <div class="tariff-grid">
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Code Mesure : </span>
+      <span class="value">{{ mesure.codeMesure }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Date Début : </span>
+      <span class="value">{{ mesure.dateDebut | date:'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Date Fin : </span>
+      <span class="value">{{ mesure.dateFin | date:'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Numéro Quota : </span>
+      <span class="value">{{ mesure.numeroQuota || '-' }}</span>
+    </div>
+    <div class="grid-row">
+      <span class="label" style="font-weight: bold;">Statut : </span>
+      <span class="value">
+        {{ mesure.statut }}
+      </span>
+    </div>
+    <div class="grid-row" *ngIf="data.commentaire && (authService.getRole() === 'ADMIN')">
+      <span class="label" style="font-weight: bold;">Commentaire : </span>
+      <span class="value">{{ data.commentaire }}</span>
+    </div>
+  </div>
+  <div class="treatment-form" [formGroup]="traitementForm">
+    
+    
+    <div class="form-group" *ngIf="authService.getRole() === 'RESPONSABLE'">
+      <label for="commentaire">Commentaire :</label>
+      <textarea 
+        id="commentaire" 
+        formControlName="commentaire" 
+        rows="4" 
+        placeholder="Saisissez votre commentaire..."
+        class="form-control"
+      ></textarea>
+      <div *ngIf="traitementForm.get('commentaire')?.invalid && traitementForm.get('commentaire')?.touched" 
+           class="error-message">
+        Le commentaire est requis
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+
+      
+  <div class="tariff-footer">
+    <button mat-button (click)="fermer()">Fermer</button>
+    <button mat-button (click)="approuve()" *ngIf="authService.getRole() === 'RESPONSABLE'">approuve</button>
+    <button mat-button (click)="rejecter()" *ngIf="authService.getRole() === 'RESPONSABLE'">rejecter</button>
+  </div>
+</div>
